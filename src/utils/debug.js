@@ -13,4 +13,4 @@ if (process.env.REACT_APP_API_URL) {
 // Import et affichage de l'URL utilisée
 import { API_BASE_URL } from './constants';
 console.log('API_BASE_URL utilisée:', API_BASE_URL);
-console.log('================================'); 
+console.log('================================');
