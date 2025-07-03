@@ -64,6 +64,7 @@ export default function MovieDetails() {
       <div
         className="section1"
         style={{
+          clipPath: "clip-path: circle(70.7% at 51% 0);",
           "--section1-bg": movie.image ? `url(https://image.tmdb.org/t/p/original${movie.image})` : "none"
         }}
       >
