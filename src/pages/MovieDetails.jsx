@@ -51,8 +51,9 @@ export default function MovieDetails() {
           <div className="nav-item">Offres</div>
         </div>
         <div className="title-box">
-          <h1>{movie.name}</h1>
+          <div className="title-bg"><h1>{movie.name}</h1></div>
         </div>
+        <div className="fade-bottom" />
       </div>
       {/* Section 2 : Description + Bande-annonce */}
       <div className="section2">
@@ -119,7 +120,7 @@ const Container = styled.div`
   justify-content: flex-start;
 
   .section1 {
-    min-height: 60vh;
+    min-height: 62vh;
     width: 100vw;
     background: #111;
     background-size: cover;
@@ -135,20 +136,20 @@ const Container = styled.div`
       transform: translateX(-50%);
       display: flex;
       justify-content: center;
-      gap: 1.1rem;
+      gap: 0.7rem;
       background: rgba(15,15,15,0.92);
       border-radius: 2rem;
-      padding: 0.18rem 0.7rem;
+      padding: 0.12rem 0.5rem;
       z-index: 10;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.25);
-      min-width: 320px;
-      max-width: 400px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+      min-width: 260px;
+      max-width: 340px;
       .nav-item {
         color: #fff;
-        font-size: 0.98rem;
+        font-size: 0.93rem;
         font-weight: 600;
         cursor: pointer;
-        padding: 0.09rem 0.7rem;
+        padding: 0.07rem 0.5rem;
         border-radius: 2rem;
         transition: background 0.2s;
         &.selected, &:hover {
@@ -160,30 +161,50 @@ const Container = styled.div`
     .title-box {
       position: absolute;
       left: 0;
-      bottom: 2.5rem;
+      bottom: 2.7rem;
       padding-left: 4vw;
       z-index: 5;
+      .title-bg {
+        display: inline-block;
+        background: rgba(0,0,0,0.55);
+        border-radius: 0.5rem;
+        padding: 0.2em 1.2em 0.2em 0.5em;
+        box-shadow: 0 4px 32px rgba(0,0,0,0.45);
+      }
       h1 {
-        font-size: 3.2rem;
+        font-size: 3.3rem;
         font-weight: 900;
         color: #fff;
-        text-shadow: 0 4px 32px rgba(0,0,0,0.85), 0 1px 0 #000;
+        text-shadow: 0 4px 32px rgba(0,0,0,0.95), 0 1px 0 #000;
         margin: 0;
         letter-spacing: 0.04em;
       }
     }
+    .fade-bottom {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100vw;
+      height: 8vh;
+      background: linear-gradient(180deg,rgba(0,0,0,0.01) 0%,rgba(0,0,0,0.85) 100%);
+      z-index: 2;
+    }
   }
   .section2 {
-    margin-top: 0;
+    margin-top: -4.5rem;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 2.5rem;
-    padding: 0 8vw 4vw 8vw;
+    padding: 0 2vw 4vw 2vw;
     z-index: 20;
+    @media (max-width: 900px) {
+      margin-top: 0;
+      padding: 0 1vw 2vw 1vw;
+    }
   }
   .desc-card {
-    background: rgba(30,30,30,0.92);
+    background: rgba(30,30,30,0.82);
     border-radius: 1.2rem;
     padding: 2rem 2.5rem;
     max-width: 900px;
@@ -191,6 +212,7 @@ const Container = styled.div`
     color: #fff;
     box-shadow: 0 4px 32px rgba(0,0,0,0.18);
     margin-bottom: 1.5rem;
+    backdrop-filter: blur(6px);
     .desc-header {
       display: flex;
       justify-content: space-between;
