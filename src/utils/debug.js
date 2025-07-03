@@ -1,3 +1,4 @@
+console.log("DEBUG TEST");
 // Script de debug pour vérifier les variables d'environnement du frontend
 console.log('=== Debug Frontend Variables ===');
 console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL ? 'Définie' : 'Non définie');
