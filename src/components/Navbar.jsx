@@ -69,9 +69,6 @@ export default function Navbar({ isScrolled }) {
 }
 
 const Container = styled.div`
-  border: 2px solid #bbb;
-  border-radius: 2rem;
-  overflow: hidden;
   .scrolled {
     background-color: black;
   }
