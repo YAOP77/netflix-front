@@ -185,7 +185,7 @@ const Container = styled.div`
           border: none;
           outline: none;
           color: #fff;
-          font-size: 1.05rem;
+          font-size: 0.9em;
           font-weight: 600;
           cursor: pointer;
           padding: 0;
@@ -206,6 +206,7 @@ const Container = styled.div`
           background: #fff;
           border-radius: 2rem;
           box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+          border: 2px solid #bbb;
           transition: left 0.25s cubic-bezier(.4,0,.2,1);
           z-index: 1;
         }
