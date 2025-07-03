@@ -42,9 +42,9 @@ export default function MovieDetails() {
   if (!movie) return <div style={{ color: '#fff' }}>Chargement...</div>;
 
   return (
-    <Container bgimg={movie.image ? `https://image.tmdb.org/t/p/original${movie.image}` : undefined}>
+    <Container>
       {/* Section 1 : Image + Navbar + Titre */}
-      <div className="section1">
+      <div className="section1" style={{ backgroundImage: movie.image ? `url(https://image.tmdb.org/t/p/original${movie.image})` : undefined }}>
         <div className="navbar">
           <div className="nav-item selected">Bandes-annonces</div>
           <div className="nav-item">Autres titres à regarder</div>
@@ -112,7 +112,6 @@ export default function MovieDetails() {
 const Container = styled.div`
   min-height: 100vh;
   width: 100vw;
-  background: ${({ bgimg }) => bgimg ? `url(${bgimg}) center center/cover no-repeat` : '#111'};
   position: relative;
   display: flex;
   flex-direction: column;
@@ -120,13 +119,15 @@ const Container = styled.div`
   justify-content: flex-start;
 
   .section1 {
-    position: relative;
     min-height: 60vh;
     width: 100vw;
+    background: #111;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    background: transparent;
     .navbar {
       position: absolute;
       top: 2.2rem;
