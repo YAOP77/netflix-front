@@ -8,6 +8,8 @@ import { BiChevronDown } from "react-icons/bi";
 import { BsCheck } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { removeMovieFromLiked, addMovieToLiked } from "../store";
+import axios from "axios";
+import { TMDB_BASE_URL, API_KEY } from "../utils/constants";
 // import video from "../assets/video.mp4";
 
 export default React.memo(function Card({ index, movieData, isLiked = false }) {
@@ -20,17 +22,26 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
   });
 
   const addToList = () => {
-    console.log("Ajout à la liste :", movieData, email);
     dispatch(addMovieToLiked({ email, data: movieData }));
   };
 
-  // Fonction pour démo : retourne une URL vidéo différente selon le film
-  const getDemoVideoUrl = (movie) => {
-    if (movie.name && movie.name.toLowerCase().includes("game of thrones")) {
-      return "https://media.w3.org/2010/05/sintel/trailer_hd.mp4";
+  // Handler pour récupérer la bande-annonce et naviguer vers Player
+  const handlePlay = async () => {
+    let trailerUrl = null;
+    try {
+      const { data } = await axios.get(
+        `${TMDB_BASE_URL}/movie/${movieData.id}/videos?api_key=${API_KEY}`
+      );
+      const trailer = data.results.find(
+        (vid) => vid.type === "Trailer" && vid.site === "YouTube"
+      );
+      if (trailer) {
+        trailerUrl = `https://www.youtube.com/embed/${trailer.key}`;
+      }
+    } catch (e) {
+      trailerUrl = null;
     }
-    // Ajoute d'autres conditions ici si besoin
-    return "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+    navigate("/player", { state: { movie: { ...movieData, trailerUrl } } });
   };
 
   return (
@@ -41,7 +52,7 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
       <img
         src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
         alt="card"
-        onClick={() => navigate("/player", { state: { movie: { ...movieData, videoUrl: getDemoVideoUrl(movieData) } } })}
+        onClick={handlePlay}
       />
 
       {isHovered && (
@@ -50,7 +61,7 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
             <img
               src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
               alt="card"
-              onClick={() => navigate("/player", { state: { movie: { ...movieData, videoUrl: getDemoVideoUrl(movieData) } } })}
+              onClick={handlePlay}
             />
             {/* <video
               src={video}
@@ -61,14 +72,14 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
             /> */}
           </div>
           <div className="info-container flex column">
-            <h3 className="name" onClick={() => navigate("/player", { state: { movie: movieData } })}>
+            <h3 className="name" onClick={handlePlay}>
               {movieData.name}
             </h3>
             <div className="icons flex j-between">
               <div className="controls flex">
                 <IoPlayCircleSharp
                   title="Play"
-                  onClick={() => navigate("/player", { state: { movie: { ...movieData, videoUrl: getDemoVideoUrl(movieData) } } })}
+                  onClick={handlePlay}
                 />
                 <RiThumbUpFill title="Like" />
                 <RiThumbDownFill title="Dislike" />

@@ -7,7 +7,7 @@ export default function Player() {
   const navigate = useNavigate();
   const location = useLocation();
   const movie = location.state?.movie;
-  const videoUrl = movie?.videoUrl || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  const trailerUrl = movie?.trailerUrl;
 
   return (
     <Container>
@@ -15,13 +15,19 @@ export default function Player() {
         <div className="back">
           <BsArrowLeft onClick={() => navigate(-1)} />
         </div>
-        <video
-          src={videoUrl}
-          controls
-          width="80%"
-          height="auto"
-          style={{ background: "#000" }}
-        />
+        {trailerUrl ? (
+          <iframe
+            width="80%"
+            height="500"
+            src={trailerUrl}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        ) : (
+          <div style={{ color: "#fff" }}>Aucune bande-annonce trouvée.</div>
+        )}
       </div>
     </Container>
   );
