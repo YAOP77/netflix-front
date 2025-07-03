@@ -44,13 +44,15 @@ export default function MovieDetails() {
   return (
     <Container bgimg={movie.image ? `https://image.tmdb.org/t/p/original${movie.image}` : undefined}>
       {/* Section 1 : Image + Navbar + Titre */}
-      <div className="navbar">
-        <div className="nav-item selected">Bandes-annonces</div>
-        <div className="nav-item">Autres titres à regarder</div>
-        <div className="nav-item">Offres</div>
-      </div>
-      <div className="title-box">
-        <h1>{movie.name}</h1>
+      <div className="section1">
+        <div className="navbar">
+          <div className="nav-item selected">Bandes-annonces</div>
+          <div className="nav-item">Autres titres à regarder</div>
+          <div className="nav-item">Offres</div>
+        </div>
+        <div className="title-box">
+          <h1>{movie.name}</h1>
+        </div>
       </div>
       {/* Section 2 : Description + Bande-annonce */}
       <div className="section2">
@@ -117,52 +119,61 @@ const Container = styled.div`
   align-items: stretch;
   justify-content: flex-start;
 
-  .navbar {
-    position: fixed;
-    top: 2.2rem;
-    left: 50%;
-    transform: translateX(-50%);
+  .section1 {
+    position: relative;
+    min-height: 60vh;
+    width: 100vw;
     display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    background: rgba(15,15,15,0.92);
-    border-radius: 2rem;
-    padding: 0.25rem 1.2rem;
-    z-index: 10;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
-    min-width: 420px;
-    max-width: 520px;
-    .nav-item {
-      color: #fff;
-      font-size: 1.05rem;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 0.13rem 0.9rem;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: transparent;
+    .navbar {
+      position: absolute;
+      top: 2.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      gap: 1.1rem;
+      background: rgba(15,15,15,0.92);
       border-radius: 2rem;
-      transition: background 0.2s;
-      &.selected, &:hover {
-        background: #fff;
-        color: #111;
+      padding: 0.18rem 0.7rem;
+      z-index: 10;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+      min-width: 320px;
+      max-width: 400px;
+      .nav-item {
+        color: #fff;
+        font-size: 0.98rem;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0.09rem 0.7rem;
+        border-radius: 2rem;
+        transition: background 0.2s;
+        &.selected, &:hover {
+          background: #fff;
+          color: #111;
+        }
+      }
+    }
+    .title-box {
+      position: absolute;
+      left: 0;
+      bottom: 2.5rem;
+      padding-left: 4vw;
+      z-index: 5;
+      h1 {
+        font-size: 3.2rem;
+        font-weight: 900;
+        color: #fff;
+        text-shadow: 0 4px 32px rgba(0,0,0,0.85), 0 1px 0 #000;
+        margin: 0;
+        letter-spacing: 0.04em;
       }
     }
   }
-  .title-box {
-    position: absolute;
-    left: 0;
-    bottom: 2.5rem;
-    padding-left: 4vw;
-    z-index: 5;
-    h1 {
-      font-size: 3.2rem;
-      font-weight: 900;
-      color: #fff;
-      text-shadow: 0 4px 32px rgba(0,0,0,0.85), 0 1px 0 #000;
-      margin: 0;
-      letter-spacing: 0.04em;
-    }
-  }
   .section2 {
-    margin-top: 60vh;
+    margin-top: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
