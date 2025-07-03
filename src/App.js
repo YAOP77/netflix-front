@@ -7,6 +7,7 @@ import Player from "./pages/Player";
 import Signup from "./pages/Signup";
 import TVShows from "./pages/TVShows";
 import UserListedMovies from "./pages/UserListedMovies";
+import "./utils/debug";
 
 export default function App() {
   return (
