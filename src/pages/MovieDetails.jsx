@@ -61,7 +61,12 @@ export default function MovieDetails() {
         />
       )}
       {/* Section 1 : Image + Navbar + Titre */}
-      <div className="section1" style={{ backgroundImage: movie.image ? `url(https://image.tmdb.org/t/p/original${movie.image})` : undefined }}>
+      <div
+        className="section1"
+        style={{
+          "--section1-bg": movie.image ? `url(https://image.tmdb.org/t/p/original${movie.image})` : "none"
+        }}
+      >
         <div className="navbar-floating">
           <div className="navbar-tabs">
             {NAV_TABS.map((tab, idx) => (
@@ -212,15 +217,16 @@ const Container = styled.div`
     z-index: 1;
   }
   .section1 {
-    min-height: 75vh;
-    width: 100vw;
-    background: transparent !important;
+    background: #111;
+    background-image: var(--section1-bg);
     background-size: cover;
     background-position: center center;
     position: relative;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    min-height: 75vh;
+    width: 100vw;
     .navbar-floating {
       position: absolute;
       top: 2.2rem;
