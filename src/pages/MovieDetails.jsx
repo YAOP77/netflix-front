@@ -55,55 +55,57 @@ export default function MovieDetails() {
         </div>
         <div className="fade-bottom" />
       </div>
-      {/* Section 2 : Description + Bande-annonce */}
+      {/* Section 2 : Vidéo + Description côte à côte */}
       <div className="section2">
-        <div className="desc-card">
-          <div className="desc-header">
-            <div>
-              <span className="desc-title">{movie.name}</span>
-              <span className="desc-meta">{movie.year} • {movie.genres.join(", ")}</span>
-            </div>
-            {movie.actors && movie.actors.length > 0 && (
-              <div className="desc-actors"><b>Avec :</b> {movie.actors.join(", ")}</div>
+        <div className="row-flex">
+          <div className="trailer-section">
+            <div className="trailer-title">Bandes-annonces</div>
+            {trailer ? (
+              <div className="trailer-card">
+                <div className="trailer-thumb" onClick={() => setTrailer({ ...trailer, show: true })}>
+                  <img
+                    src={`https://img.youtube.com/vi/${trailer.key}/mqdefault.jpg`}
+                    alt="Bande-annonce"
+                  />
+                  <div className="play-btn">▶</div>
+                  <div className="trailer-duration">1 m 44 s</div>
+                </div>
+                <div className="trailer-info">
+                  <div className="trailer-label">BANDE-ANNONCE</div>
+                  <div className="trailer-name">Bande-annonce : {movie.name}</div>
+                </div>
+              </div>
+            ) : (
+              <div style={{ color: '#bbb', marginTop: '1.5rem' }}>Aucune bande-annonce trouvée.</div>
+            )}
+            {/* Affichage de la vidéo dans une modal ou en dessous */}
+            {trailer && trailer.show && (
+              <div className="trailer-modal">
+                <iframe
+                  width="640"
+                  height="360"
+                  src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+                <button className="close-btn" onClick={() => setTrailer({ ...trailer, show: false })}>✕</button>
+              </div>
             )}
           </div>
-          <div className="desc-body">{movie.description}</div>
-        </div>
-        <div className="trailer-section">
-          <div className="trailer-title">Bandes-annonces</div>
-          {trailer ? (
-            <div className="trailer-card">
-              <div className="trailer-thumb" onClick={() => setTrailer({ ...trailer, show: true })}>
-                <img
-                  src={`https://img.youtube.com/vi/${trailer.key}/mqdefault.jpg`}
-                  alt="Bande-annonce"
-                />
-                <div className="play-btn">▶</div>
-                <div className="trailer-duration">1 m 44 s</div>
+          <div className="desc-card">
+            <div className="desc-header">
+              <div>
+                <span className="desc-title">{movie.name}</span>
+                <span className="desc-meta">{movie.year} • {movie.genres.join(", ")}</span>
               </div>
-              <div className="trailer-info">
-                <div className="trailer-label">BANDE-ANNONCE</div>
-                <div className="trailer-name">Bande-annonce : {movie.name}</div>
-              </div>
+              {movie.actors && movie.actors.length > 0 && (
+                <div className="desc-actors"><b>Avec :</b> {movie.actors.join(", ")}</div>
+              )}
             </div>
-          ) : (
-            <div style={{ color: '#bbb', marginTop: '1.5rem' }}>Aucune bande-annonce trouvée.</div>
-          )}
-          {/* Affichage de la vidéo dans une modal ou en dessous */}
-          {trailer && trailer.show && (
-            <div className="trailer-modal">
-              <iframe
-                width="640"
-                height="360"
-                src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-              <button className="close-btn" onClick={() => setTrailer({ ...trailer, show: false })}>✕</button>
-            </div>
-          )}
+            <div className="desc-body">{movie.description}</div>
+          </div>
         </div>
       </div>
     </Container>
@@ -202,12 +204,26 @@ const Container = styled.div`
       margin-top: 0;
       padding: 0 1vw 2vw 1vw;
     }
+    .row-flex {
+      display: flex;
+      flex-direction: row;
+      gap: 2.5rem;
+      width: 100%;
+      max-width: 1100px;
+      align-items: flex-start;
+      justify-content: center;
+      @media (max-width: 900px) {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: stretch;
+      }
+    }
   }
   .desc-card {
     background: rgba(30,30,30,0.82);
     border-radius: 1.2rem;
     padding: 2rem 2.5rem;
-    max-width: 900px;
+    max-width: 600px;
     width: 100%;
     color: #fff;
     box-shadow: 0 4px 32px rgba(0,0,0,0.18);
@@ -244,6 +260,7 @@ const Container = styled.div`
   }
   .trailer-section {
     margin-top: 1.5rem;
+    min-width: 280px;
     .trailer-title {
       font-size: 1.5rem;
       font-weight: 700;
