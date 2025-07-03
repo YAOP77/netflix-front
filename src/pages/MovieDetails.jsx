@@ -118,6 +118,24 @@ export default function MovieDetails() {
             <div className="desc-body">{movie.description}</div>
           </div>
         </div>
+        {/* Blocs Plus de détails directement sous la row-flex, sans carte ni div supplémentaire */}
+        <div className="details-row">
+          <div className="details-block">
+            <div><b>Lecture hors ligne</b><br/>Téléchargeable</div>
+            <div style={{marginTop: '1em'}}><b>Genres</b><br/>{movie.genres.join(', ')}</div>
+            <div style={{marginTop: '1em'}}><b>Cette série est...</b><br/>Sombre, À suspense, Thriller, À rebondissements, Contre le système, Film hollywoodien, Émouvant, Enjeux sociaux, Drame</div>
+            <div style={{marginTop: '1em'}}><b>À propos de À bout</b><br/>Découvrez les coulisses et apprenez-en plus sur <a href="https://www.tudum.com" target="_blank" rel="noopener noreferrer" style={{color:'#fff',textDecoration:'underline'}}>Tudum.com</a></div>
+          </div>
+          <div className="details-block">
+            <div><b>Audio</b><br/>anglais - Audiodescription, anglais [VO],<br/>français - Audiodescription, français</div>
+            <div style={{marginTop: '1em'}}><b>Sous-titres</b><br/>anglais, français</div>
+          </div>
+          <div className="details-block">
+            <div><b>Distribution</b><br/>{movie.actors && movie.actors.length > 0 ? movie.actors.join(', ') : 'Non renseigné'}</div>
+            <div style={{marginTop: '1em'}}><b>Réalisation</b><br/>{movie.director || 'Non renseigné'}</div>
+            <div style={{marginTop: '1em'}}><b>Sponsor</b><br/>Netflix</div>
+          </div>
+        </div>
       </div>
       {/* Popup modal pour la vidéo */}
       {showModal && trailer && (
@@ -136,27 +154,6 @@ export default function MovieDetails() {
           </div>
         </div>
       )}
-      {/* Ajout de la section 3 "Plus de détails" */}
-      <div className="section3-details">
-        <h2 className="details-title">Plus de détails</h2>
-        <div className="details-columns">
-          <div className="details-col">
-            <div><b>Lecture hors ligne</b><br/>Téléchargeable</div>
-            <div style={{marginTop: '1em'}}><b>Genres</b><br/>{movie.genres.join(', ')}</div>
-            <div style={{marginTop: '1em'}}><b>Cette série est...</b><br/>Sombre, À suspense, Thriller, À rebondissements, Contre le système, Film hollywoodien, Émouvant, Enjeux sociaux, Drame</div>
-            <div style={{marginTop: '1em'}}><b>À propos de À bout</b><br/>Découvrez les coulisses et apprenez-en plus sur <a href="https://www.tudum.com" target="_blank" rel="noopener noreferrer" style={{color:'#fff',textDecoration:'underline'}}>Tudum.com</a></div>
-          </div>
-          <div className="details-col">
-            <div><b>Audio</b><br/>anglais - Audiodescription, anglais [VO],<br/>français - Audiodescription, français</div>
-            <div style={{marginTop: '1em'}}><b>Sous-titres</b><br/>anglais, français</div>
-          </div>
-          <div className="details-col">
-            <div><b>Distribution</b><br/>{movie.actors && movie.actors.length > 0 ? movie.actors.join(', ') : 'Non renseigné'}</div>
-            <div style={{marginTop: '1em'}}><b>Réalisation</b><br/>{movie.director || 'Non renseigné'}</div>
-            <div style={{marginTop: '1em'}}><b>Sponsor</b><br/>Netflix</div>
-          </div>
-        </div>
-      </div>
     </Container>
   );
 }
@@ -188,7 +185,11 @@ const Container = styled.div`
       z-index: 20;
       display: flex;
       justify-content: center;
-      width: 340px;
+      width: 480px;
+      border: 2.5px solid #e50914;
+      border-radius: 2.5rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+      background: rgba(15,15,15,0.92);
       @media (max-width: 600px) {
         width: 98vw;
       }
@@ -196,10 +197,9 @@ const Container = styled.div`
         position: relative;
         display: flex;
         width: 100%;
-        background: rgba(15,15,15,0.92);
-        border-radius: 2rem;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-        overflow: hidden;
+        border: none;
+        box-shadow: none;
+        background: transparent;
         height: 40px;
         align-items: center;
         .tab-btn {
@@ -449,41 +449,23 @@ const Container = styled.div`
       }
     }
   }
-  .section3-details {
-    background: rgba(30,30,30,0.82);
-    border-radius: 1.2rem;
-    margin: 2.5rem auto 0 auto;
+  .details-row {
+    display: flex;
+    flex-direction: row;
+    gap: 2.5rem;
+    width: 100%;
     max-width: 1100px;
-    width: 95vw;
-    padding: 2.5rem 2vw 2.5rem 2vw;
+    margin: 2.5rem auto 0 auto;
+    @media (max-width: 900px) {
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+  .details-block {
+    flex: 1 1 0;
+    min-width: 220px;
+    font-size: 1.08rem;
     color: #fff;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
-    backdrop-filter: blur(6px);
-    .details-title {
-      font-size: 2rem;
-      font-weight: 800;
-      margin-bottom: 2rem;
-      letter-spacing: 0.01em;
-    }
-    .details-columns {
-      display: flex;
-      flex-direction: row;
-      gap: 2.5rem;
-      width: 100%;
-      @media (max-width: 900px) {
-        flex-direction: column;
-        gap: 1.5rem;
-      }
-      .details-col {
-        flex: 1 1 0;
-        background: rgba(40,40,40,0.22);
-        border-radius: 1rem;
-        padding: 1.5rem 1.2rem;
-        min-width: 220px;
-        font-size: 1.08rem;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-        a { color: #fff; text-decoration: underline; }
-      }
-    }
+    a { color: #fff; text-decoration: underline; }
   }
 `; 
