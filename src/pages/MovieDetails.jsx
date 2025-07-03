@@ -23,13 +23,15 @@ export default function MovieDetails() {
       axios
         .get(`${TMDB_BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=credits`)
         .then(({ data }) => {
+          const director = data.credits && data.credits.crew ? data.credits.crew.find((c) => c.job === 'Director') : null;
           setMovie({
             id: data.id,
             name: data.title || data.original_title || "Titre inconnu",
             image: data.backdrop_path || data.poster_path || null,
             year: data.release_date ? data.release_date.slice(0, 4) : '',
             genres: data.genres ? data.genres.map((g) => g.name) : [],
-            actors: data.credits && data.credits.cast ? data.credits.cast.slice(0, 5).map((a) => a.name) : [],
+            actors: data.credits && data.credits.cast ? data.credits.cast.slice(0, 8).map((a) => a.name) : [],
+            director: director ? director.name : '',
             description: data.overview || "Aucune description disponible.",
           });
         });
@@ -134,6 +136,27 @@ export default function MovieDetails() {
           </div>
         </div>
       )}
+      {/* Ajout de la section 3 "Plus de détails" */}
+      <div className="section3-details">
+        <h2 className="details-title">Plus de détails</h2>
+        <div className="details-columns">
+          <div className="details-col">
+            <div><b>Lecture hors ligne</b><br/>Téléchargeable</div>
+            <div style={{marginTop: '1em'}}><b>Genres</b><br/>{movie.genres.join(', ')}</div>
+            <div style={{marginTop: '1em'}}><b>Cette série est...</b><br/>Sombre, À suspense, Thriller, À rebondissements, Contre le système, Film hollywoodien, Émouvant, Enjeux sociaux, Drame</div>
+            <div style={{marginTop: '1em'}}><b>À propos de À bout</b><br/>Découvrez les coulisses et apprenez-en plus sur <a href="https://www.tudum.com" target="_blank" rel="noopener noreferrer" style={{color:'#fff',textDecoration:'underline'}}>Tudum.com</a></div>
+          </div>
+          <div className="details-col">
+            <div><b>Audio</b><br/>anglais - Audiodescription, anglais [VO],<br/>français - Audiodescription, français</div>
+            <div style={{marginTop: '1em'}}><b>Sous-titres</b><br/>anglais, français</div>
+          </div>
+          <div className="details-col">
+            <div><b>Distribution</b><br/>{movie.actors && movie.actors.length > 0 ? movie.actors.join(', ') : 'Non renseigné'}</div>
+            <div style={{marginTop: '1em'}}><b>Réalisation</b><br/>{movie.director || 'Non renseigné'}</div>
+            <div style={{marginTop: '1em'}}><b>Sponsor</b><br/>Netflix</div>
+          </div>
+        </div>
+      </div>
     </Container>
   );
 }
@@ -423,6 +446,43 @@ const Container = styled.div`
         height: 2.5rem;
         cursor: pointer;
         box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+      }
+    }
+  }
+  .section3-details {
+    background: rgba(30,30,30,0.82);
+    border-radius: 1.2rem;
+    margin: 2.5rem auto 0 auto;
+    max-width: 1100px;
+    width: 95vw;
+    padding: 2.5rem 2vw 2.5rem 2vw;
+    color: #fff;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+    backdrop-filter: blur(6px);
+    .details-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 2rem;
+      letter-spacing: 0.01em;
+    }
+    .details-columns {
+      display: flex;
+      flex-direction: row;
+      gap: 2.5rem;
+      width: 100%;
+      @media (max-width: 900px) {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .details-col {
+        flex: 1 1 0;
+        background: rgba(40,40,40,0.22);
+        border-radius: 1rem;
+        padding: 1.5rem 1.2rem;
+        min-width: 220px;
+        font-size: 1.08rem;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        a { color: #fff; text-decoration: underline; }
       }
     }
   }
