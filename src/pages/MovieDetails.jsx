@@ -117,6 +117,44 @@ export default function MovieDetails() {
           </div>
         </div>
       </div>
+      {/* Section 3 : Plus de détails */}
+      <div className="section3">
+        <h2 className="details-title">Plus de détails</h2>
+        <div className="details-grid">
+          <div className="details-card">
+            <div><b>Lecture hors ligne</b></div>
+            <div>Téléchargeable</div>
+            <br />
+            <div><b>Genres</b></div>
+            <div>{movie.genres.join(", ")}</div>
+            <br />
+            <div><b>Cette série est…</b></div>
+            <div>
+              Sombre, À suspense, Thriller, À rebondissements, Contre le système, Film hollywoodien, Émouvant, Enjeux sociaux, Drame
+            </div>
+            <br />
+            <div><b>À propos de À bout</b></div>
+            <div>
+              Découvrez les coulisses et apprenez-en plus sur <a href="https://www.tudum.com" target="_blank" rel="noopener noreferrer" style={{color:'#fff',textDecoration:'underline'}}>Tudum.com</a>
+            </div>
+          </div>
+          <div className="details-card">
+            <div><b>Audio</b></div>
+            <div>anglais - Audiodescription, anglais [VO], français - Audiodescription, français</div>
+            <br />
+            <div><b>Sous-titres</b></div>
+            <div>anglais, français</div>
+          </div>
+          <div className="details-card">
+            <div><b>Distribution</b></div>
+            <div>
+              {movie.actors && movie.actors.length > 0
+                ? movie.actors.join(", ")
+                : "Non renseigné"}
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Popup modal pour la vidéo */}
       {showModal && trailer && (
         <div className="modal-bg" onClick={() => setShowModal(false)}>
@@ -424,6 +462,40 @@ const Container = styled.div`
         cursor: pointer;
         box-shadow: 0 2px 8px rgba(0,0,0,0.25);
       }
+    }
+  }
+  .section3 {
+    background: rgba(20,20,20,0.92);
+    padding: 2.5rem 0 3.5rem 0;
+    color: #fff;
+    .details-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-left: 2.5rem;
+      margin-bottom: 2.2rem;
+    }
+    .details-grid {
+      display: flex;
+      gap: 2.5rem;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      @media (max-width: 900px) {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: stretch;
+      }
+    }
+    .details-card {
+      background: rgba(30,30,30,0.82);
+      border-radius: 1.2rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+      padding: 2rem 1.5rem 1.5rem 1.5rem;
+      min-width: 300px;
+      max-width: 370px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      a { color: #fff; text-decoration: underline; }
     }
   }
 `; 
