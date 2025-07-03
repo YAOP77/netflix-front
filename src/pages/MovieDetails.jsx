@@ -9,18 +9,19 @@ export default function MovieDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [movie, setMovie] = useState(location.state?.movie || null);
+  const [rawData, setRawData] = useState(null); // debug
 
   useEffect(() => {
-    // Si movie n'est pas passé via location.state, on va le chercher via TMDB
     if (!movie) {
       axios
         .get(`${TMDB_BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=credits`)
         .then(({ data }) => {
+          setRawData(data); // debug
           setMovie({
             id: data.id,
-            name: data.title,
-            description: data.overview,
-            image: data.backdrop_path || data.poster_path,
+            name: data.title || data.original_title || "Titre inconnu",
+            description: data.overview || "Aucune description disponible.",
+            image: data.backdrop_path || data.poster_path || null,
             year: data.release_date ? data.release_date.slice(0, 4) : '',
             genres: data.genres ? data.genres.map((g) => g.name) : [],
             actors: data.credits && data.credits.cast ? data.credits.cast.slice(0, 5).map((a) => a.name) : [],
@@ -34,11 +35,15 @@ export default function MovieDetails() {
   return (
     <Container>
       <div className="movie-header">
-        <img
-          className="movie-image"
-          src={`https://image.tmdb.org/t/p/original${movie.image}`}
-          alt={movie.name}
-        />
+        {movie.image ? (
+          <img
+            className="movie-image"
+            src={`https://image.tmdb.org/t/p/original${movie.image}`}
+            alt={movie.name}
+          />
+        ) : (
+          <div className="no-image">Aucune image disponible</div>
+        )}
         <div className="movie-info">
           <h1>{movie.name}</h1>
           <div className="movie-meta">
@@ -55,6 +60,8 @@ export default function MovieDetails() {
           )}
         </div>
       </div>
+      {/* Debug temporaire pour voir les données TMDB */}
+      {/* <pre style={{color:'#fff',fontSize:'0.8rem'}}>{JSON.stringify(rawData, null, 2)}</pre> */}
     </Container>
   );
 }
@@ -74,6 +81,19 @@ const Container = styled.div`
       border-radius: 1rem;
       margin-bottom: 2rem;
       box-shadow: 0 4px 32px rgba(0,0,0,0.7);
+    }
+    .no-image {
+      width: 80vw;
+      max-width: 900px;
+      height: 400px;
+      background: #222;
+      border-radius: 1rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+      font-size: 1.5rem;
     }
     .movie-info {
       max-width: 900px;
