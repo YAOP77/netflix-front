@@ -17,7 +17,6 @@ export default function MovieDetails() {
           setMovie({
             id: data.id,
             name: data.title || data.original_title || "Titre inconnu",
-            description: data.overview || "Aucune description disponible.",
             image: data.backdrop_path || data.poster_path || null,
             year: data.release_date ? data.release_date.slice(0, 4) : '',
             genres: data.genres ? data.genres.map((g) => g.name) : [],
@@ -36,22 +35,8 @@ export default function MovieDetails() {
         <div className="nav-item">Autres titres à regarder</div>
         <div className="nav-item">Offres</div>
       </div>
-      <div className="overlay">
-        <div className="info-box">
-          <h1>{movie.name}</h1>
-          <div className="meta">
-            <span>{movie.year}</span>
-            {movie.genres && movie.genres.length > 0 && (
-              <span> • {movie.genres.join(", ")}</span>
-            )}
-          </div>
-          <p className="desc">{movie.description}</p>
-          {movie.actors && movie.actors.length > 0 && (
-            <div className="actors">
-              <b>Avec :</b> {movie.actors.join(", ")}
-            </div>
-          )}
-        </div>
+      <div className="title-box">
+        <h1>{movie.name}</h1>
       </div>
     </Container>
   );
@@ -69,21 +54,23 @@ const Container = styled.div`
 
   .navbar {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
+    top: 2.2rem;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     justify-content: center;
-    gap: 2.5rem;
-    background: rgba(0,0,0,0.7);
-    padding: 1.2rem 0 1.2rem 0;
+    gap: 2.2rem;
+    background: rgba(15,15,15,0.92);
+    border-radius: 2rem;
+    padding: 0.35rem 1.5rem;
     z-index: 10;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.25);
     .nav-item {
       color: #fff;
-      font-size: 1.2rem;
-      font-weight: 500;
+      font-size: 1.08rem;
+      font-weight: 600;
       cursor: pointer;
-      padding: 0.3rem 1.2rem;
+      padding: 0.18rem 1.1rem;
       border-radius: 2rem;
       transition: background 0.2s;
       &.selected, &:hover {
@@ -92,42 +79,19 @@ const Container = styled.div`
       }
     }
   }
-  .overlay {
-    min-height: 100vh;
-    width: 100vw;
-    background: linear-gradient(180deg,rgba(0,0,0,0.7) 60%,rgba(0,0,0,0.95) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 7rem;
-    box-sizing: border-box;
-  }
-  .info-box {
-    background: rgba(0,0,0,0.65);
-    border-radius: 1.2rem;
-    padding: 2.5rem 3rem;
-    max-width: 600px;
-    width: 100%;
-    color: #fff;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.7);
-    text-align: left;
+  .title-box {
+    position: absolute;
+    left: 0;
+    bottom: 2.5rem;
+    padding-left: 4vw;
+    z-index: 5;
     h1 {
-      font-size: 2.7rem;
-      font-weight: 800;
-      margin-bottom: 1.2rem;
-    }
-    .meta {
-      font-size: 1.1rem;
-      color: #bbb;
-      margin-bottom: 1.2rem;
-    }
-    .desc {
-      font-size: 1.25rem;
-      margin-bottom: 1.2rem;
-    }
-    .actors {
-      font-size: 1.1rem;
-      color: #ccc;
+      font-size: 3.2rem;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 4px 32px rgba(0,0,0,0.85), 0 1px 0 #000;
+      margin: 0;
+      letter-spacing: 0.04em;
     }
   }
 `; 
