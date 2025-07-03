@@ -51,6 +51,15 @@ export default function MovieDetails() {
 
   return (
     <Container>
+      {/* Fond global flouté */}
+      {movie.image && (
+        <div
+          className="blur-bg"
+          style={{
+            backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.image})`,
+          }}
+        />
+      )}
       {/* Section 1 : Image + Navbar + Titre */}
       <div className="section1" style={{ backgroundImage: movie.image ? `url(https://image.tmdb.org/t/p/original${movie.image})` : undefined }}>
         <div className="navbar-floating">
@@ -184,6 +193,30 @@ const Container = styled.div`
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
+
+  .blur-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    background-size: cover;
+    background-position: center;
+    filter: blur(38px) brightness(0.7);
+    pointer-events: none;
+    transition: background-image 0.4s;
+  }
+  .section1, .section2, .section3 {
+    position: relative;
+    z-index: 1;
+  }
+  .desc-card, .trailer-card, .details-card {
+    background: rgba(30,30,30,0.48) !important;
+    /* effet glassmorphism plus prononcé */
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+    backdrop-filter: blur(2.5px);
+  }
 
   .section1 {
     min-height: 75vh;
