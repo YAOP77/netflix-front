@@ -213,9 +213,14 @@ const Container = styled.div`
   }
   .desc-card, .trailer-card, .details-card {
     background: rgba(30,30,30,0.48) !important;
-    /* effet glassmorphism plus prononcé */
-    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-    backdrop-filter: blur(2.5px);
+    border-radius: 1.2rem;
+    padding: 2rem 2.5rem;
+    max-width: 600px;
+    width: 100%;
+    color: #fff;
+    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(6px);
   }
 
   .section1 {
@@ -349,15 +354,6 @@ const Container = styled.div`
     }
   }
   .desc-card {
-    background: rgba(30,30,30,0.82);
-    border-radius: 1.2rem;
-    padding: 2rem 2.5rem;
-    max-width: 600px;
-    width: 100%;
-    color: #fff;
-    box-shadow: 0 4px 32px rgba(0,0,0,0.18);
-    margin-bottom: 1.5rem;
-    backdrop-filter: blur(6px);
     .desc-header {
       display: flex;
       justify-content: space-between;
