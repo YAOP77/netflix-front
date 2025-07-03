@@ -55,7 +55,7 @@ export default function MovieDetails() {
         </div>
         <div className="fade-bottom" />
       </div>
-      {/* Section 2 : Vidéo + Description côte à côte */}
+      {/* Section 2 : Vidéo + Description côte à côte, sur fond noir */}
       <div className="section2">
         <div className="row-flex">
           <div className="trailer-section">
@@ -122,7 +122,7 @@ const Container = styled.div`
   justify-content: flex-start;
 
   .section1 {
-    min-height: 62vh;
+    min-height: 65vh;
     width: 100vw;
     background: #111;
     background-size: cover;
@@ -193,16 +193,22 @@ const Container = styled.div`
     }
   }
   .section2 {
-    margin-top: -4.5rem;
+    background: #111;
+    margin-top: 0;
+    padding-top: 2.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2.5rem;
-    padding: 0 2vw 4vw 2vw;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-bottom: 4vw;
     z-index: 20;
     @media (max-width: 900px) {
-      margin-top: 0;
-      padding: 0 1vw 2vw 1vw;
+      padding-top: 1.2rem;
+      padding-left: 1vw;
+      padding-right: 1vw;
+      padding-bottom: 2vw;
     }
     .row-flex {
       display: flex;
