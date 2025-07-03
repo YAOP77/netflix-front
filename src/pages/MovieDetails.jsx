@@ -4,12 +4,19 @@ import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { TMDB_BASE_URL, API_KEY } from "../utils/constants";
 
+const NAV_TABS = [
+  { key: "trailer", label: "Bandes-annonces" },
+  { key: "other", label: "Autres titres à regarder" },
+  { key: "offers", label: "Offres" },
+];
+
 export default function MovieDetails() {
   const location = useLocation();
   const { id } = useParams();
   const [movie, setMovie] = useState(location.state?.movie || null);
   const [trailer, setTrailer] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [activeTab, setActiveTab] = useState("trailer");
 
   useEffect(() => {
     if (!movie) {
@@ -46,10 +53,26 @@ export default function MovieDetails() {
     <Container>
       {/* Section 1 : Image + Navbar + Titre */}
       <div className="section1" style={{ backgroundImage: movie.image ? `url(https://image.tmdb.org/t/p/original${movie.image})` : undefined }}>
-        <div className="navbar">
-          <div className="nav-item selected">Bandes-annonces</div>
-          <div className="nav-item">Autres titres à regarder</div>
-          <div className="nav-item">Offres</div>
+        <div className="navbar-floating">
+          <div className="navbar-tabs">
+            {NAV_TABS.map((tab, idx) => (
+              <button
+                key={tab.key}
+                className={`tab-btn${activeTab === tab.key ? " active" : ""}`}
+                onClick={() => setActiveTab(tab.key)}
+                style={{ zIndex: 2 }}
+              >
+                {tab.label}
+              </button>
+            ))}
+            <div
+              className="tab-slider"
+              style={{
+                left: `calc(${NAV_TABS.findIndex(t => t.key === activeTab)} * 33.3333%)`,
+                width: "33.3333%",
+              }}
+            />
+          </div>
         </div>
         <div className="title-box">
           <div className="title-bg"><h1>{movie.name}</h1></div>
@@ -134,32 +157,57 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    .navbar {
+    .navbar-floating {
       position: absolute;
       top: 2.2rem;
       left: 50%;
       transform: translateX(-50%);
+      z-index: 20;
       display: flex;
       justify-content: center;
-      gap: 0.7rem;
-      background: rgba(15,15,15,0.92);
-      border-radius: 2rem;
-      padding: 0.12rem 0.5rem;
-      z-index: 10;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-      min-width: 260px;
-      max-width: 340px;
-      .nav-item {
-        color: #fff;
-        font-size: 0.93rem;
-        font-weight: 600;
-        cursor: pointer;
-        padding: 0.07rem 0.5rem;
+      width: 340px;
+      @media (max-width: 600px) {
+        width: 98vw;
+      }
+      .navbar-tabs {
+        position: relative;
+        display: flex;
+        width: 100%;
+        background: rgba(15,15,15,0.92);
         border-radius: 2rem;
-        transition: background 0.2s;
-        &.selected, &:hover {
-          background: #fff;
+        box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+        overflow: hidden;
+        height: 40px;
+        align-items: center;
+        .tab-btn {
+          flex: 1 1 0;
+          background: none;
+          border: none;
+          outline: none;
+          color: #fff;
+          font-size: 1.05rem;
+          font-weight: 600;
+          cursor: pointer;
+          padding: 0;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 2;
+          transition: color 0.2s;
+        }
+        .tab-btn.active {
           color: #111;
+        }
+        .tab-slider {
+          position: absolute;
+          top: 0;
+          height: 100%;
+          background: #fff;
+          border-radius: 2rem;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+          transition: left 0.25s cubic-bezier(.4,0,.2,1);
+          z-index: 1;
         }
       }
     }
