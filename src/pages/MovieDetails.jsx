@@ -9,6 +9,7 @@ export default function MovieDetails() {
   const { id } = useParams();
   const [movie, setMovie] = useState(location.state?.movie || null);
   const [trailer, setTrailer] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (!movie) {
@@ -62,7 +63,7 @@ export default function MovieDetails() {
             <div className="trailer-title">Bandes-annonces</div>
             {trailer ? (
               <div className="trailer-card">
-                <div className="trailer-thumb" onClick={() => setTrailer({ ...trailer, show: true })}>
+                <div className="trailer-thumb" onClick={() => setShowModal(true)}>
                   <img
                     src={`https://img.youtube.com/vi/${trailer.key}/mqdefault.jpg`}
                     alt="Bande-annonce"
@@ -77,21 +78,6 @@ export default function MovieDetails() {
               </div>
             ) : (
               <div style={{ color: '#bbb', marginTop: '1.5rem' }}>Aucune bande-annonce trouvée.</div>
-            )}
-            {/* Affichage de la vidéo dans une modal ou en dessous */}
-            {trailer && trailer.show && (
-              <div className="trailer-modal">
-                <iframe
-                  width="640"
-                  height="360"
-                  src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
-                  title="YouTube video player"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-                <button className="close-btn" onClick={() => setTrailer({ ...trailer, show: false })}>✕</button>
-              </div>
             )}
           </div>
           <div className="desc-card">
@@ -108,6 +94,23 @@ export default function MovieDetails() {
           </div>
         </div>
       </div>
+      {/* Popup modal pour la vidéo */}
+      {showModal && trailer && (
+        <div className="modal-bg" onClick={() => setShowModal(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <iframe
+              width="800"
+              height="450"
+              src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+            <button className="close-btn" onClick={() => setShowModal(false)}>✕</button>
+          </div>
+        </div>
+      )}
     </Container>
   );
 }
@@ -122,7 +125,7 @@ const Container = styled.div`
   justify-content: flex-start;
 
   .section1 {
-    min-height: 65vh;
+    min-height: 75vh;
     width: 100vw;
     background: #111;
     background-size: cover;
@@ -262,6 +265,8 @@ const Container = styled.div`
       font-size: 1.15rem;
       margin-top: 1.2rem;
       color: #eee;
+      line-height: 1.6;
+      letter-spacing: 0.01em;
     }
   }
   .trailer-section {
@@ -330,16 +335,31 @@ const Container = styled.div`
         }
       }
     }
-    .trailer-modal {
-      margin-top: 1.5rem;
+  }
+  .modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .modal-content {
       position: relative;
-      width: 640px;
-      max-width: 90vw;
+      background: transparent;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.45);
+      padding: 0;
       iframe {
-        width: 100%;
-        height: 360px;
+        width: 80vw;
+        max-width: 900px;
+        height: 45vw;
+        max-height: 60vh;
         border-radius: 1rem;
-        box-shadow: 0 4px 32px rgba(0,0,0,0.45);
+        background: #000;
       }
       .close-btn {
         position: absolute;
