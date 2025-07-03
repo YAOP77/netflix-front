@@ -25,23 +25,9 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
     dispatch(addMovieToLiked({ email, data: movieData }));
   };
 
-  // Handler pour récupérer la bande-annonce et naviguer vers Player
-  const handlePlay = async () => {
-    let trailerUrl = null;
-    try {
-      const { data } = await axios.get(
-        `${TMDB_BASE_URL}/movie/${movieData.id}/videos?api_key=${API_KEY}`
-      );
-      const trailer = data.results.find(
-        (vid) => vid.type === "Trailer" && vid.site === "YouTube"
-      );
-      if (trailer) {
-        trailerUrl = `https://www.youtube.com/embed/${trailer.key}`;
-      }
-    } catch (e) {
-      trailerUrl = null;
-    }
-    navigate("/player", { state: { movie: { ...movieData, trailerUrl } } });
+  // Handler pour naviguer vers la page de détails du film
+  const handleShowDetails = () => {
+    navigate(`/movie/${movieData.id}`, { state: { movie: movieData } });
   };
 
   return (
@@ -52,7 +38,7 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
       <img
         src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
         alt="card"
-        onClick={handlePlay}
+        onClick={handleShowDetails}
       />
 
       {isHovered && (
@@ -61,7 +47,7 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
             <img
               src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
               alt="card"
-              onClick={handlePlay}
+              onClick={handleShowDetails}
             />
             {/* <video
               src={video}
@@ -72,14 +58,14 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
             /> */}
           </div>
           <div className="info-container flex column">
-            <h3 className="name" onClick={handlePlay}>
+            <h3 className="name" onClick={handleShowDetails}>
               {movieData.name}
             </h3>
             <div className="icons flex j-between">
               <div className="controls flex">
                 <IoPlayCircleSharp
                   title="Play"
-                  onClick={handlePlay}
+                  onClick={handleShowDetails}
                 />
                 <RiThumbUpFill title="Like" />
                 <RiThumbDownFill title="Dislike" />
