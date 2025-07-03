@@ -229,7 +229,6 @@ const Container = styled.div`
     min-height: 75vh;
     width: 100vw;
     .navbar-floating {
-      clip-path: polygon(50% 57%, 77% 51%, 100% 35%, 100% 100%, 85% 100%, 50% 100%, 14% 100%, 0 100%, 0% 35%, 21% 51%);
       position: absolute;
       top: 2.2rem;
       left: 50%;
@@ -318,6 +317,7 @@ const Container = styled.div`
   }
   .section2 {
     background: transparent !important;
+    clip-path: polygon(50% 57%, 77% 51%, 100% 35%, 100% 100%, 85% 100%, 50% 100%, 14% 100%, 0 100%, 0% 35%, 21% 51%);
     margin-top: 0;
     padding-top: 2.5rem;
     display: flex;
