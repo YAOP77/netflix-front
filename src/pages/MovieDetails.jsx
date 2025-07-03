@@ -14,47 +14,34 @@ export default function MovieDetails() {
   useEffect(() => {
     if (!movie) {
       axios
-        .get(`${TMDB_BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=credits,videos`)
+        .get(`${TMDB_BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=credits`)
         .then(({ data }) => {
           setMovie({
             id: data.id,
             name: data.title || data.original_title || "Titre inconnu",
+            description: data.overview || "Aucune description disponible.",
             image: data.backdrop_path || data.poster_path || null,
             year: data.release_date ? data.release_date.slice(0, 4) : '',
             genres: data.genres ? data.genres.map((g) => g.name) : [],
             actors: data.credits && data.credits.cast ? data.credits.cast.slice(0, 5).map((a) => a.name) : [],
-            description: data.overview || "Aucune description disponible.",
           });
-          // Récupérer la bande-annonce YouTube
-          const trailerVid = data.videos?.results?.find(
-            (vid) => vid.type === "Trailer" && vid.site === "YouTube"
-          );
-          if (trailerVid) {
-            setTrailer({
-              key: trailerVid.key,
-              name: trailerVid.name,
-              duration: null, // Optionnel, on peut l'ajouter si besoin
-            });
-          }
-        });
-    } else {
-      // Si movie déjà là, on va chercher la vidéo
-      axios
-        .get(`${TMDB_BASE_URL}/movie/${movie.id}/videos?api_key=${API_KEY}`)
-        .then(({ data }) => {
-          const trailerVid = data.results?.find(
-            (vid) => vid.type === "Trailer" && vid.site === "YouTube"
-          );
-          if (trailerVid) {
-            setTrailer({
-              key: trailerVid.key,
-              name: trailerVid.name,
-              duration: null,
-            });
-          }
         });
     }
   }, [id, movie]);
+
+  useEffect(() => {
+    // Récupérer la bande-annonce YouTube
+    if (movie && !trailer) {
+      axios
+        .get(`${TMDB_BASE_URL}/movie/${movie.id}/videos?api_key=${API_KEY}`)
+        .then(({ data }) => {
+          const t = data.results.find(
+            (vid) => vid.type === "Trailer" && vid.site === "YouTube"
+          );
+          if (t) setTrailer(t);
+        });
+    }
+  }, [movie, trailer]);
 
   if (!movie) return <div style={{ color: '#fff' }}>Chargement...</div>;
 
@@ -68,55 +55,46 @@ export default function MovieDetails() {
       <div className="title-box">
         <h1>{movie.name}</h1>
       </div>
-      <div className="content-sections">
-        <div className="desc-cast-box">
-          <div className="desc-title">{movie.name}</div>
-          <div className="desc-meta">
-            <span>{movie.year}</span>
-            {movie.genres && movie.genres.length > 0 && (
-              <span> • {movie.genres.join(", ")}</span>
+      <div className="details-section">
+        <div className="desc-card">
+          <div className="desc-header">
+            <span className="desc-title">{movie.name}</span>
+            <span className="desc-meta">{movie.year} • {movie.genres.join(", ")} • Drame</span>
+            {movie.actors && movie.actors.length > 0 && (
+              <span className="desc-actors"><b>Avec :</b> {movie.actors.join(", ")}</span>
             )}
-            <span> • Drame</span> {/* Optionnel, à adapter selon le genre */}
           </div>
-          <div className="desc-text">{movie.description}</div>
-          {movie.actors && movie.actors.length > 0 && (
-            <div className="desc-cast"><b>Avec :</b> {movie.actors.join(", ")}</div>
-          )}
+          <div className="desc-body">{movie.description}</div>
         </div>
         <div className="trailer-section">
-          <div className="trailer-title">Bandes-annonces</div>
+          <h2>Bandes-annonces</h2>
           {trailer ? (
-            <div className="trailer-thumb-box">
-              {!showTrailer ? (
-                <div className="trailer-thumb" onClick={() => setShowTrailer(true)}>
-                  <img
-                    src={`https://img.youtube.com/vi/${trailer.key}/hqdefault.jpg`}
-                    alt="Bande-annonce"
-                  />
-                  <div className="play-btn">
-                    <svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#000" fillOpacity="0.6"/><polygon points="20,16 36,24 20,32" fill="#fff"/></svg>
-                  </div>
-                  <div className="trailer-caption">
-                    <div className="trailer-label">BANDE-ANNONCE</div>
-                    <div className="trailer-name">Bande-annonce : {movie.name}</div>
-                  </div>
-                </div>
-              ) : (
-                <div className="trailer-player">
-                  <iframe
-                    width="560"
-                    height="315"
-                    src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
-                    title="YouTube video player"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              )}
+            <div className="trailer-thumb" onClick={() => setShowTrailer(true)}>
+              <img
+                src={`https://img.youtube.com/vi/${trailer.key}/mqdefault.jpg`}
+                alt="Bande-annonce"
+              />
+              <div className="play-btn">
+                <svg width="48" height="48" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#000" fillOpacity="0.6"/><polygon points="20,16 34,24 20,32" fill="#fff"/></svg>
+              </div>
+              <div className="trailer-duration">1 m 44 s</div>
+              <div className="trailer-caption">BANDE-ANNONCE<br/>Bande-annonce : {movie.name}</div>
             </div>
           ) : (
-            <div className="trailer-thumb-box">Aucune bande-annonce trouvée.</div>
+            <div style={{ color: '#fff', marginTop: '1rem' }}>Aucune bande-annonce trouvée.</div>
+          )}
+          {showTrailer && trailer && (
+            <div className="trailer-modal" onClick={() => setShowTrailer(false)}>
+              <iframe
+                width="800"
+                height="450"
+                src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
           )}
         </div>
       </div>
@@ -145,10 +123,10 @@ const Container = styled.div`
     background: rgba(15,15,15,0.92);
     border-radius: 2rem;
     padding: 0.35rem 2.5rem;
+    min-width: 420px;
+    max-width: 520px;
     z-index: 10;
     box-shadow: 0 2px 16px rgba(0,0,0,0.25);
-    min-width: 420px;
-    max-width: 540px;
     .nav-item {
       color: #fff;
       font-size: 1.08rem;
@@ -178,109 +156,117 @@ const Container = styled.div`
       letter-spacing: 0.04em;
     }
   }
-  .content-sections {
-    margin-top: 38vh;
+  .details-section {
+    margin-top: 60vh;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     gap: 2.5rem;
+    padding: 0 2vw 4vw 2vw;
     z-index: 20;
   }
-  .desc-cast-box {
+  .desc-card {
     background: rgba(30,30,30,0.92);
     border-radius: 1.2rem;
-    padding: 2rem 2.5rem 2rem 2.5rem;
+    padding: 2rem 2.5rem 1.5rem 2.5rem;
     max-width: 900px;
-    width: 90vw;
+    margin: 0 auto 0.5rem auto;
     color: #fff;
-    margin-bottom: 0.5rem;
     box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-    .desc-title {
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 0.7rem;
+    .desc-header {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      .desc-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+      .desc-meta {
+        font-size: 1.1rem;
+        color: #bbb;
+        margin-bottom: 0.5rem;
+      }
+      .desc-actors {
+        font-size: 1.1rem;
+        color: #ccc;
+        margin-bottom: 0.5rem;
+      }
     }
-    .desc-meta {
-      font-size: 1.1rem;
-      color: #bbb;
-      margin-bottom: 1.1rem;
-    }
-    .desc-text {
+    .desc-body {
       font-size: 1.18rem;
-      margin-bottom: 1.1rem;
-    }
-    .desc-cast {
-      font-size: 1.1rem;
-      color: #ccc;
+      margin-top: 0.5rem;
     }
   }
   .trailer-section {
-    width: 90vw;
-    max-width: 900px;
-    background: rgba(30,30,30,0.92);
-    border-radius: 1.2rem;
-    padding: 2rem 2.5rem 2.5rem 2.5rem;
-    color: #fff;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-    .trailer-title {
-      font-size: 2rem;
+    margin-top: 1.5rem;
+    h2 {
+      color: #fff;
+      font-size: 1.5rem;
       font-weight: 700;
       margin-bottom: 1.2rem;
     }
-    .trailer-thumb-box {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      .trailer-thumb {
-        position: relative;
-        width: 320px;
-        height: 180px;
-        border-radius: 0.7rem;
-        overflow: hidden;
-        cursor: pointer;
-        box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-        .play-btn {
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-50%, -50%);
-          z-index: 2;
-        }
-        .trailer-caption {
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          width: 100%;
-          background: rgba(0,0,0,0.7);
-          color: #fff;
-          padding: 0.5rem 1rem;
-          .trailer-label {
-            font-size: 0.95rem;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            opacity: 0.85;
-          }
-          .trailer-name {
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-top: 0.2rem;
-          }
-        }
-      }
-      .trailer-player {
+    .trailer-thumb {
+      position: relative;
+      width: 320px;
+      height: 180px;
+      border-radius: 0.8rem;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+      margin-bottom: 0.7rem;
+      img {
         width: 100%;
-        max-width: 560px;
-        margin-top: 1rem;
-        iframe {
-          width: 100%;
-          height: 315px;
-          border-radius: 0.7rem;
-        }
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .play-btn {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        pointer-events: none;
+      }
+      .trailer-duration {
+        position: absolute;
+        right: 0.7rem;
+        bottom: 0.7rem;
+        background: rgba(0,0,0,0.7);
+        color: #fff;
+        font-size: 1rem;
+        padding: 0.2rem 0.7rem;
+        border-radius: 0.5rem;
+        z-index: 2;
+      }
+      .trailer-caption {
+        position: absolute;
+        left: 0.7rem;
+        bottom: 0.7rem;
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-shadow: 0 2px 8px #000;
+        z-index: 2;
+        text-transform: uppercase;
+        letter-spacing: 0.02em;
+      }
+    }
+    .trailer-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      iframe {
+        border-radius: 1.2rem;
+        box-shadow: 0 2px 32px #000;
       }
     }
   }
