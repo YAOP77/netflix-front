@@ -64,7 +64,7 @@ export default function MovieDetails() {
       <div
         className="section1"
         style={{
-          clipPath: "circle(68.2% at 50% 0);",
+          clipPath: "polygon(50% 0%, 100% 0, 100% 63%, 70% 49%, 29% 49%, 0 63%, 0 0);",
           "--section1-bg": movie.image ? `url(https://image.tmdb.org/t/p/original${movie.image})` : "none",
           backgroundAttachment: "fixed"
         }}
