@@ -5,6 +5,7 @@ import axios from "axios";
 import { TMDB_BASE_URL, API_KEY } from "../utils/constants";
 import Card from "../components/Card";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { FaArrowLeft } from "react-icons/fa";
 
 const NAV_TABS = [
   { key: "trailer", label: "Bandes-annonces" },
@@ -200,6 +201,15 @@ export default function MovieDetails() {
 
   return (
     <Container>
+      {/* Bouton retour page principale */}
+      <button
+        className="back-to-home-btn"
+        onClick={() => navigate("/")}
+        style={{ position: 'fixed', top: 24, left: 24, zIndex: 20, background: 'rgba(0,0,0,0.7)', border: 'none', borderRadius: '50%', width: 44, height: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.18)' }}
+        title="Retour à l'accueil"
+      >
+        <FaArrowLeft size={22} />
+      </button>
       {/* Fond global flouté */}
       {movie.image && (
         <div
