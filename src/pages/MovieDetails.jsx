@@ -229,6 +229,12 @@ const Container = styled.div`
     min-height: 75vh;
     width: 100vw;
     .navbar-floating {
+      background: rgba(20, 20, 20, 0.82);
+      backdrop-filter: blur(8px);
+      border-radius: 2.2rem;
+      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.38), 0 1.5px 8px 0 rgba(0,0,0,0.18) !important;
+      padding: 0.2rem 0.7rem;
+      margin-top: 1.2rem;
       position: absolute;
       top: 2.2rem;
       left: 50%;
@@ -237,7 +243,6 @@ const Container = styled.div`
       display: flex;
       justify-content: center;
       width: 340px;
-      box-shadow: 0 6px 32px 0 rgba(0,0,0,0.38), 0 1.5px 8px 0 rgba(0,0,0,0.18) !important;
       @media (max-width: 600px) {
         width: 98vw;
       }
