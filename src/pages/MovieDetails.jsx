@@ -1,8 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import styled from "styled-components";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { TMDB_BASE_URL, API_KEY } from "../utils/constants";
+import Card from "../components/Card";
 
 const NAV_TABS = [
   { key: "trailer", label: "Bandes-annonces" },
@@ -19,6 +20,7 @@ export default function MovieDetails() {
   const [showModal, setShowModal] = useState(false);
   const [activeTab, setActiveTab] = useState("trailer");
   const episodesRef = useRef(null);
+  const [similarMovies, setSimilarMovies] = useState([]);
 
   useEffect(() => {
     if (!movie) {
@@ -100,6 +102,31 @@ export default function MovieDetails() {
       episodesRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, [activeTab]);
+
+  // Récupère des films similaires (même genre) via TMDB
+  const fetchSimilarMovies = useCallback(async () => {
+    if (!movie || !movie.genres || movie.genres.length === 0) return;
+    try {
+      // Prend le premier genre du film sélectionné
+      const genre = movie.genres[0];
+      // Appel à TMDB pour récupérer des films du même genre
+      const res = await axios.get(`${TMDB_BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${encodeURIComponent(genre)}&language=fr-FR`);
+      // Filtre pour ne pas inclure le film courant
+      const filtered = res.data.results.filter(m => m.id !== movie.id).slice(0, 6);
+      setSimilarMovies(filtered.map(m => ({
+        id: m.id,
+        name: m.title || m.original_title,
+        image: m.backdrop_path || m.poster_path,
+        genres: m.genre_ids || [],
+      })));
+    } catch (e) {
+      setSimilarMovies([]);
+    }
+  }, [movie]);
+
+  useEffect(() => {
+    fetchSimilarMovies();
+  }, [fetchSimilarMovies]);
 
   if (!movie) return <div style={{ color: '#fff' }}>Chargement...</div>;
 
@@ -249,6 +276,17 @@ export default function MovieDetails() {
                 : "Non renseigné"}
             </div>
           </div>
+        </div>
+      </div>
+      {/* Section 4 : Vous aimerez peut-être aussi */}
+      <div className="similar-section">
+        <h2 className="similar-title">Vous aimerez peut-être aussi</h2>
+        <div className="similar-list">
+          {similarMovies.length === 0 ? (
+            <div style={{color:'#bbb',fontSize:'1.1rem',margin:'2rem'}}>Aucun film similaire trouvé.</div>
+          ) : similarMovies.map((m, idx) => (
+            <Card key={m.id} movieData={m} />
+          ))}
         </div>
       </div>
       {/* Popup modal pour la vidéo */}
@@ -714,6 +752,30 @@ const Container = styled.div`
           font-size: 1rem;
           color: #ddd;
         }
+      }
+    }
+  }
+  .similar-section {
+    margin: 2.5rem 0 3.5rem 0;
+    color: #fff;
+    .similar-title {
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin-left: 2.5rem;
+      margin-bottom: 2.2rem;
+    }
+    .similar-list {
+      display: flex;
+      flex-direction: row;
+      gap: 1.2rem;
+      justify-content: flex-start;
+      align-items: stretch;
+      flex-wrap: wrap;
+      padding: 0 2.5rem;
+      @media (max-width: 900px) {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 0 0.5rem;
       }
     }
   }
