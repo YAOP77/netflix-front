@@ -26,6 +26,10 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
     dispatch(addMovieToLiked({ email, data: movieData }));
   };
 
+  const removeFromList = () => {
+    dispatch(removeMovieFromLiked({ email, movieId: movieData.id }));
+  };
+
   // Simule l'original Netflix si le titre contient "Netflix" ou "The Man God" (pour la démo)
   const isNetflixOriginal = movieData.name?.toLowerCase().includes('netflix') || movieData.name?.toLowerCase().includes('the man god');
 
@@ -50,13 +54,23 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
           <img src={logoNetflix} alt="Netflix logo" className="netflix-logo" />
         )}
         {isHovered && (
-          <button
-            className="add-to-list-btn"
-            title="Ajouter à My List"
-            onClick={e => { e.stopPropagation(); addToList(); }}
-          >
-            <AiOutlinePlus size={22} />
-          </button>
+          isLiked ? (
+            <button
+              className="add-to-list-btn"
+              title="Retirer de My List"
+              onClick={e => { e.stopPropagation(); removeFromList(); }}
+            >
+              <BsCheck size={22} />
+            </button>
+          ) : (
+            <button
+              className="add-to-list-btn"
+              title="Ajouter à My List"
+              onClick={e => { e.stopPropagation(); addToList(); }}
+            >
+              <AiOutlinePlus size={22} />
+            </button>
+          )
         )}
         <div className="card-title-bg">
           <span className="card-title">{movieData.name}</span>
