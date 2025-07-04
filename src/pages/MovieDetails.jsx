@@ -439,6 +439,7 @@ const Container = styled.div`
           font-size: 1rem;
           color: #bbb;
           font-weight: 600;
+          border: 1px solid #444;
           margin-bottom: 0.3rem;
         }
         .trailer-name {
