@@ -785,18 +785,22 @@ const Container = styled.div`
     }
   }
   .similar-section {
-    margin: 2.5rem 0 3.5rem 0;
+    margin: 3.5rem 0 4.5rem 0;
     color: #fff;
+    padding: 2.5rem 0 2.5rem 0;
     .similar-title {
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       font-weight: bold;
       margin-left: 2.5rem;
       margin-bottom: 2.2rem;
+      color: #fff;
+      text-shadow: 0 4px 32px rgba(0,0,0,0.95), 0 1px 0 #000;
+      letter-spacing: 0.01em;
     }
     .similar-list {
       display: flex;
       flex-direction: row;
-      gap: 1.2rem;
+      gap: 1.5rem;
       justify-content: flex-start;
       align-items: stretch;
       flex-wrap: wrap;
@@ -806,6 +810,18 @@ const Container = styled.div`
         gap: 1.5rem;
         padding: 0 0.5rem;
       }
+      .card-image-container, .desc-card, .trailer-card, .details-card {
+        background: rgba(30,30,30,0.82) !important;
+        box-shadow: 0 6px 32px 0 rgba(0,0,0,0.38), 0 1.5px 8px 0 rgba(0,0,0,0.18);
+        border: 1.5px solid rgba(255,255,255,0.08);
+      }
+    }
+    .similar-list > div[style] {
+      color: #fff !important;
+      font-size: 1.3rem !important;
+      text-align: center;
+      margin: 2.5rem auto !important;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.45);
     }
   }
 `; 
