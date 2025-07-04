@@ -272,7 +272,7 @@ const Container = styled.div`
           border: none;
           outline: none;
           color: #fff;
-          font-size: 0.9em;
+          font-size: 0.7em;
           font-weight: 700;
           cursor: pointer;
           padding: 0 1.2em;
