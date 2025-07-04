@@ -199,7 +199,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
-  z-index: 1;
 
   .blur-bg {
     position: fixed;
@@ -216,7 +215,6 @@ const Container = styled.div`
   }
   .section1, .section2, .section3 {
     position: relative;
-    z-index: 1;
   }
   .section1 {
     background: #111;
