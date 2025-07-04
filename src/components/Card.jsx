@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { removeMovieFromLiked, addMovieToLiked } from "../store";
 import axios from "axios";
 import { TMDB_BASE_URL, API_KEY } from "../utils/constants";
+import logoNetflix from "../assets/logo-logomark.png";
 // import video from "../assets/video.mp4";
 
 export default React.memo(function Card({ index, movieData, isLiked = false }) {
@@ -31,148 +32,89 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
   };
 
   return (
-    <Container
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <img
-        src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
-        alt="card"
-        onClick={handleShowDetails}
-      />
-
-      {isHovered && (
-        <div className="hover">
-          <div className="image-video-container">
-            <img
-              src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
-              alt="card"
-              onClick={handleShowDetails}
-            />
-            {/* <video
-              src={video}
-              autoPlay={true}
-              loop
-              muted
-              onClick={() => navigate("/player")}
-            /> */}
-          </div>
-          <div className="info-container flex column">
-            <h3 className="name" onClick={handleShowDetails}>
-              {movieData.name}
-            </h3>
-            <div className="icons flex j-between">
-              <div className="controls flex">
-                <IoPlayCircleSharp
-                  title="Play"
-                  onClick={handleShowDetails}
-                />
-                <RiThumbUpFill title="Like" />
-                <RiThumbDownFill title="Dislike" />
-                {isLiked ? (
-                  <BsCheck
-                    title="Remove from List"
-                    onClick={() =>
-                      dispatch(
-                        removeMovieFromLiked({ movieId: movieData.id, email })
-                      )
-                    }
-                  />
-                ) : (
-                  <AiOutlinePlus title="Add to my list" onClick={addToList} />
-                )}
-              </div>
-              <div className="info">
-                <BiChevronDown title="More Info" />
-              </div>
-            </div>
-            <div className="genres flex">
-              <ul className="flex">
-                {movieData.genres.map((genre) => (
-                  <li>{genre}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
+    <Container onClick={handleShowDetails}>
+      <div className="card-image-container">
+        <img
+          className="card-image"
+          src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
+          alt={movieData.name}
+        />
+        <img src={logoNetflix} alt="Netflix logo" className="netflix-logo" />
+        <div className="card-title-bg">
+          <span className="card-title">{movieData.name}</span>
         </div>
-      )}
+      </div>
     </Container>
   );
 });
 
 const Container = styled.div`
-  max-width: 230px;
-  width: 230px;
-  height: 100%;
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
+  aspect-ratio: 2/3;
+  margin: 0 0.7rem;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
-  img {
-    border-radius: 0.2rem;
+  .card-image-container {
+    position: relative;
     width: 100%;
     height: 100%;
-    z-index: 10;
-  }
-  .hover {
-    z-index: 99;
-    height: max-content;
-    width: 20rem;
-    position: absolute;
-    top: -18vh;
-    left: 0;
-    border-radius: 0.3rem;
-    box-shadow: rgba(0, 0, 0, 0.75) 0px 3px 10px;
-    background-color: #181818;
-    transition: 0.3s ease-in-out;
-    .image-video-container {
-      position: relative;
-      height: 140px;
-      img {
-        width: 100%;
-        height: 140px;
-        object-fit: cover;
-        border-radius: 0.3rem;
-        top: 0;
-        z-index: 4;
-        position: absolute;
-      }
-      video {
-        width: 100%;
-        height: 140px;
-        object-fit: cover;
-        border-radius: 0.3rem;
-        top: 0;
-        z-index: 5;
-        position: absolute;
-      }
+    border-radius: 1.1rem;
+    overflow: hidden;
+    box-shadow: 0 6px 32px 0 rgba(0,0,0,0.38), 0 1.5px 8px 0 rgba(0,0,0,0.18);
+    background: #181818;
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 1.1rem;
+      display: block;
+      background: #181818;
     }
-    .info-container {
-      padding: 1rem;
-      gap: 0.5rem;
+    .netflix-logo {
+      position: absolute;
+      top: 0.7rem;
+      left: 0.7rem;
+      width: 2.1rem;
+      height: 2.1rem;
+      z-index: 2;
+      background: rgba(0,0,0,0.18);
+      border-radius: 0.4rem;
+      padding: 0.15rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
     }
-    .icons {
-      .controls {
-        display: flex;
-        gap: 1rem;
-      }
-      svg {
-        font-size: 2rem;
-        cursor: pointer;
-        transition: 0.3s ease-in-out;
-        &:hover {
-          color: #b8b8b8;
-        }
-      }
+    .card-title-bg {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      min-height: 2.7rem;
+      background: linear-gradient(180deg,rgba(0,0,0,0.01) 0%,rgba(0,0,0,0.85) 100%);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding: 0.7rem 0.7rem 0.5rem 0.7rem;
+      z-index: 2;
     }
-    .genres {
-      ul {
-        gap: 1rem;
-        li {
-          padding-right: 0.7rem;
-          &:first-of-type {
-            list-style-type: none;
-          }
-        }
-      }
+    .card-title {
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 800;
+      text-align: center;
+      width: 100%;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.55);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-height: 1.2;
+      max-height: 2.7em;
     }
   }
 `;
