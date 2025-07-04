@@ -793,9 +793,11 @@ const Container = styled.div`
       font-weight: bold;
       margin-left: 2.5rem;
       margin-bottom: 2.2rem;
+      margin-top: 1.5rem;
       color: #fff;
       text-shadow: 0 4px 32px rgba(0,0,0,0.95), 0 1px 0 #000;
       letter-spacing: 0.01em;
+      display: block;
     }
     .similar-list {
       display: flex;
@@ -803,12 +805,14 @@ const Container = styled.div`
       gap: 1.5rem;
       justify-content: flex-start;
       align-items: stretch;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       padding: 0 2.5rem;
-      @media (max-width: 900px) {
-        flex-direction: column;
-        gap: 1.5rem;
-        padding: 0 0.5rem;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      &::-webkit-scrollbar {
+        display: none;
       }
       .card-image-container, .desc-card, .trailer-card, .details-card {
         background: rgba(30,30,30,0.82) !important;
