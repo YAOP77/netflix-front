@@ -26,6 +26,9 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
     dispatch(addMovieToLiked({ email, data: movieData }));
   };
 
+  // Simule l'original Netflix si le titre contient "Netflix" ou "The Man God" (pour la démo)
+  const isNetflixOriginal = movieData.name?.toLowerCase().includes('netflix') || movieData.name?.toLowerCase().includes('the man god');
+
   // Handler pour naviguer vers la page de détails du film
   const handleShowDetails = () => {
     navigate(`/movie/${movieData.id}`, { state: { movie: movieData } });
@@ -39,7 +42,9 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
           src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
           alt={movieData.name}
         />
-        <img src={logoNetflix} alt="Netflix logo" className="netflix-logo" />
+        {isNetflixOriginal && (
+          <img src={logoNetflix} alt="Netflix logo" className="netflix-logo" />
+        )}
         <div className="card-title-bg">
           <span className="card-title">{movieData.name}</span>
         </div>
@@ -49,11 +54,11 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
 });
 
 const Container = styled.div`
-  width: 180px;
-  min-width: 180px;
-  max-width: 180px;
+  width: 140px;
+  min-width: 140px;
+  max-width: 140px;
   aspect-ratio: 2/3;
-  margin: 0 0.7rem;
+  margin: 0 0.3rem;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -79,12 +84,12 @@ const Container = styled.div`
       position: absolute;
       top: 0.7rem;
       left: 0.7rem;
-      width: 2.1rem;
-      height: 2.1rem;
+      width: 1.7rem;
+      height: 1.7rem;
       z-index: 2;
       background: rgba(0,0,0,0.18);
       border-radius: 0.4rem;
-      padding: 0.15rem;
+      padding: 0.12rem;
       box-shadow: 0 2px 8px rgba(0,0,0,0.18);
     }
     .card-title-bg {
@@ -92,17 +97,17 @@ const Container = styled.div`
       left: 0;
       right: 0;
       bottom: 0;
-      min-height: 2.7rem;
+      min-height: 2.1rem;
       background: linear-gradient(180deg,rgba(0,0,0,0.01) 0%,rgba(0,0,0,0.85) 100%);
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      padding: 0.7rem 0.7rem 0.5rem 0.7rem;
+      padding: 0.5rem 0.5rem 0.4rem 0.5rem;
       z-index: 2;
     }
     .card-title {
       color: #fff;
-      font-size: 1.15rem;
+      font-size: 1rem;
       font-weight: 800;
       text-align: center;
       width: 100%;
@@ -113,8 +118,8 @@ const Container = styled.div`
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
-      line-height: 1.2;
-      max-height: 2.7em;
+      line-height: 1.1;
+      max-height: 2.2em;
     }
   }
 `;
