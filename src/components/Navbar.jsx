@@ -4,9 +4,10 @@ import styled from "styled-components";
 import logo from "../assets/logo.png";
 import { FaPowerOff, FaSearch } from "react-icons/fa";
 
-export default function Navbar({ isScrolled }) {
+export default function Navbar({ isScrolled, onSearchChange }) {
   const [showSearch, setShowSearch] = useState(false);
   const [inputHover, setInputHover] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const links = [
     { name: "Home", link: "/" },
     { name: "TV Shows", link: "/tv" },
@@ -47,6 +48,11 @@ export default function Navbar({ isScrolled }) {
             <input
               type="text"
               placeholder="Search"
+              value={searchValue}
+              onChange={e => {
+                setSearchValue(e.target.value);
+                if (onSearchChange) onSearchChange(e.target.value);
+              }}
               onMouseEnter={() => setInputHover(true)}
               onMouseLeave={() => setInputHover(false)}
               onBlur={() => {

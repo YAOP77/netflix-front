@@ -12,6 +12,7 @@ import Slider from "../components/Slider";
 
 function Netflix() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [search, setSearch] = useState("");
   const movies = useSelector((state) => state.netflix.movies);
   const genres = useSelector((state) => state.netflix.genres);
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
@@ -39,9 +40,17 @@ function Netflix() {
     return () => (window.onscroll = null);
   };
 
+  // Filtrage en temps réel
+  const filteredMovies = search.trim().length === 0
+    ? movies
+    : movies.filter(movie =>
+        movie.name?.toLowerCase().includes(search.toLowerCase()) ||
+        movie.title?.toLowerCase().includes(search.toLowerCase())
+      );
+
   return (
     <Container>
-      <Navbar isScrolled={isScrolled} />
+      <Navbar isScrolled={isScrolled} onSearchChange={setSearch} />
       <div className="hero">
         <img
           src={backgroundImage}
@@ -67,7 +76,7 @@ function Netflix() {
           </div>
         </div>
       </div>
-      <Slider movies={movies} />
+      <Slider movies={filteredMovies} />
     </Container>
   );
 }
