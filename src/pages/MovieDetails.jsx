@@ -87,13 +87,6 @@ export default function MovieDetails() {
                 {tab.label}
               </button>
             ))}
-            <div
-              className="tab-slider"
-              style={{
-                left: `calc(${NAV_TABS.findIndex(t => t.key === activeTab)} * (100% / ${NAV_TABS.length}))`,
-                width: `calc(100% / ${NAV_TABS.length})`,
-              }}
-            />
           </div>
         </div>
         <div className="title-box">
@@ -289,18 +282,6 @@ const Container = styled.div`
           color: #111;
           background: #fff;
           box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-        }
-        .tab-slider {
-          position: absolute;
-          bottom: 0.2em;
-          left: 0;
-          height: 5px;
-          background: #fff;
-          border-radius: 2em;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-          border: none;
-          transition: left 0.25s cubic-bezier(.4,0,.2,1), width 0.25s cubic-bezier(.4,0,.2,1);
-          z-index: 1;
         }
       }
       @media (max-width: 600px) {
