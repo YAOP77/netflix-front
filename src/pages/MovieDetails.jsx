@@ -233,7 +233,7 @@ const Container = styled.div`
       top: 2.2rem;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 30;
+      z-index: 90;
       display: flex;
       justify-content: center;
       width: 480px;
