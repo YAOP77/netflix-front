@@ -297,9 +297,9 @@ const Container = styled.div`
         }
         .tab-slider {
           position: absolute;
-          bottom: 0.2em;
-          left: 0;
-          height: 5px;
+          // bottom: 0.2em;
+          // left: 0;
+          // height: 5px;
           background: #fff;
           border-radius: 2em;
           box-shadow: 0 2px 8px rgba(0,0,0,0.10);
