@@ -49,8 +49,11 @@ export default function MovieDetails() {
   const offerRef = useRef(null);
   const navigate = useNavigate();
   const similarRef = useRef(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    setError(null);
+    setMovie(null);
     // Toujours recharger le film quand l'id change
     axios
       .get(`${TMDB_BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=credits`)
@@ -70,6 +73,9 @@ export default function MovieDetails() {
           vote_average: data.vote_average,
           status: data.status,
         });
+      })
+      .catch((err) => {
+        setError("Impossible de charger les informations du film. Veuillez réessayer plus tard ou vérifier votre connexion internet.");
       });
     // Récupérer la bande-annonce
     axios
@@ -176,6 +182,7 @@ export default function MovieDetails() {
     }
   }, []);
 
+  if (error) return <div style={{ color: '#fff', padding: 32 }}>{error}</div>;
   if (!movie) return <div style={{ color: '#fff' }}>Chargement...</div>;
 
   return (
