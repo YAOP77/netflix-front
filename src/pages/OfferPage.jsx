@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -67,7 +67,7 @@ const OFFERS = [
 export default function OfferPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const selected = location.state?.offer?.key;
+  const [selected, setSelected] = useState(location.state?.offer?.key || null);
 
   return (
     <Container>
@@ -81,6 +81,7 @@ export default function OfferPage() {
             key={offer.key}
             className={`offer-card${selected === offer.key ? " offer-selected" : ""}${offer.popular ? " offer-popular" : ""}`}
             style={{ border: selected === offer.key ? '2.5px solid #0071eb' : '1.5px solid #ddd' }}
+            onClick={() => setSelected(offer.key)}
           >
             {offer.popular && <div className="offer-popular-badge">Most Popular</div>}
             <div className="offer-header" style={{ background: offer.color }}>
@@ -93,7 +94,10 @@ export default function OfferPage() {
             <div className="offer-body">
               <div className="offer-row">
                 <span className="offer-label">Monthly price</span>
-                <span className="offer-value">{offer.priceUSD}</span>
+                <span className="offer-value">
+                  {offer.priceUSD}
+                  <span className="offer-fcfa">{`(${Math.round(parseFloat(offer.priceUSD.replace('USD','').replace(',','.'))*600)} FCFA)`}</span>
+                </span>
               </div>
               <div className="offer-sep" />
               <div className="offer-row">
@@ -247,6 +251,15 @@ const Container = styled.div`
     .offer-value {
       font-weight: 600;
       color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      .offer-fcfa {
+        font-size: 0.98rem;
+        color: #0071eb;
+        font-weight: 500;
+        margin-top: 0.1rem;
+      }
     }
     .offer-sep {
       width: 100%;
