@@ -368,8 +368,8 @@ export default function MovieDetails() {
         </div>
       )}
       {/* Section 5 : Offres d'abonnement */}
-      <div ref={offerRef} className="offers-section">
-        <div className="offers-title-bg">
+      <div ref={offerRef} className="offers-section" z-index={10}>
+        <div className="offers-title-bg" z-index={20}>
           <h2 className="offers-title">Une offre qui répond à vos besoins</h2>
         </div>
         <div className="offers-list">
@@ -957,12 +957,15 @@ const Container = styled.div`
     }
   }
   .offers-section {
+    z-index: 10;
     margin: 4.5rem 0 2.5rem 0;
     color: #fff;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     .offers-title-bg {
+      position: relative;
+      z-index: 20;
       display: flex;
       align-items: center;
       margin-left: 2.5rem;
