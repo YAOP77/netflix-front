@@ -90,8 +90,8 @@ export default function MovieDetails() {
             <div
               className="tab-slider"
               style={{
-                left: `calc(${NAV_TABS.findIndex(t => t.key === activeTab)} * 33.3333%)`,
-                width: "33.3333%",
+                left: `calc(${NAV_TABS.findIndex(t => t.key === activeTab)} * (100% / ${NAV_TABS.length}))`,
+                width: `calc(100% / ${NAV_TABS.length})`,
               }}
             />
           </div>
@@ -249,51 +249,71 @@ const Container = styled.div`
       z-index: 9999 !important;
       display: flex;
       justify-content: center;
-      width: 480px;
+      min-width: 320px;
+      width: auto;
+      max-width: 98vw;
       box-shadow: 0 6px 32px 0 rgba(0,0,0,0.38), 0 1.5px 8px 0 rgba(0,0,0,0.18) !important;
-      @media (max-width: 600px) {
-        width: 98vw;
-      }
       .navbar-tabs {
         position: relative;
         display: flex;
-        width: 100%;
+        width: auto;
+        min-width: 320px;
         background: rgba(15,15,15,0.92);
         border-radius: 2rem;
         box-shadow: 0 2px 16px rgba(0,0,0,0.18);
         overflow: hidden;
         height: 40px;
         align-items: center;
+        padding: 0 0.5rem;
+        gap: 0.2rem;
         .tab-btn {
           flex: 1 1 0;
           background: none;
           border: none;
           outline: none;
           color: #fff;
-          font-size: 0.7em;
-          font-weight: 600;
+          font-size: 0.9em;
+          font-weight: 700;
           cursor: pointer;
-          padding: 0;
-          height: 40px;
+          padding: 0 1.2em;
+          height: 36px;
+          border-radius: 1.5em;
           display: flex;
           align-items: center;
           justify-content: center;
           z-index: 2;
-          transition: color 0.2s;
+          transition: color 0.2s, background 0.18s;
+          letter-spacing: 0.01em;
         }
         .tab-btn.active {
           color: #111;
+          background: #fff;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.10);
         }
         .tab-slider {
           position: absolute;
-          top: 0;
-          height: 100%;
+          bottom: 0.2em;
+          left: 0;
+          height: 5px;
           background: #fff;
-          border-radius: 2rem;
+          border-radius: 2em;
           box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-          border: 2px solid #bbb;
-          transition: left 0.25s cubic-bezier(.4,0,.2,1);
+          border: none;
+          transition: left 0.25s cubic-bezier(.4,0,.2,1), width 0.25s cubic-bezier(.4,0,.2,1);
           z-index: 1;
+        }
+      }
+      @media (max-width: 600px) {
+        min-width: 0;
+        width: 98vw;
+        .navbar-tabs {
+          min-width: 0;
+          width: 98vw;
+          .tab-btn {
+            font-size: 0.7em;
+            padding: 0 0.7em;
+            height: 32px;
+          }
         }
       }
     }

@@ -68,26 +68,30 @@ const Container = styled.div`
     .slider-action {
       position: absolute;
       z-index: 99;
-      height: 72px;
-      width: 48px;
+      height: 64px;
+      width: 32px;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(120,120,120,0.28);
-      border-radius: 2rem;
+      background: rgba(60,60,60,0.32);
+      border-radius: 32px;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 0 2px 12px rgba(0,0,0,0.18);
-      transition: background 0.18s, box-shadow 0.18s;
+      transition: background 0.18s, box-shadow 0.18s, opacity 0.18s;
       cursor: pointer;
+      border: none;
+      padding: 0;
+      opacity: 0.82;
       svg {
         color: #fff;
-        font-size: 2.2rem;
+        font-size: 1.7rem;
         transition: color 0.18s;
       }
       &:hover {
-        background: rgba(180,180,180,0.38);
+        background: rgba(120,120,120,0.44);
         box-shadow: 0 4px 18px rgba(0,0,0,0.28);
+        opacity: 1;
         svg {
           color: #fff;
         }
