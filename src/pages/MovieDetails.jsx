@@ -39,7 +39,7 @@ const GENRE_NAME_TO_ID = {
 export default function MovieDetails() {
   const location = useLocation();
   const { id } = useParams();
-  const [movie, setMovie] = useState(location.state?.movie || null);
+  const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [activeTab, setActiveTab] = useState("trailer");
@@ -50,27 +50,26 @@ export default function MovieDetails() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!movie) {
-      axios
-        .get(`${TMDB_BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=credits`)
-        .then(({ data }) => {
-          setMovie({
-            id: data.id,
-            name: data.title || data.original_title || "Titre inconnu",
-            image: data.backdrop_path || data.poster_path || null,
-            year: data.release_date ? data.release_date.slice(0, 4) : '',
-            genres: data.genres ? data.genres.map((g) => g.name) : [],
-            actors: data.credits && data.credits.cast ? data.credits.cast.slice(0, 5).map((a) => a.name) : [],
-            description: data.overview || "Aucune description disponible.",
-            runtime: data.runtime,
-            countries: data.production_countries ? data.production_countries.map(c => c.name) : [],
-            spoken_languages: data.spoken_languages ? data.spoken_languages.map(l => l.english_name) : [],
-            original_language: data.original_language,
-            vote_average: data.vote_average,
-            status: data.status,
-          });
+    // Toujours recharger le film quand l'id change
+    axios
+      .get(`${TMDB_BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=credits`)
+      .then(({ data }) => {
+        setMovie({
+          id: data.id,
+          name: data.title || data.original_title || "Titre inconnu",
+          image: data.backdrop_path || data.poster_path || null,
+          year: data.release_date ? data.release_date.slice(0, 4) : '',
+          genres: data.genres ? data.genres.map((g) => g.name) : [],
+          actors: data.credits && data.credits.cast ? data.credits.cast.slice(0, 5).map((a) => a.name) : [],
+          description: data.overview || "Aucune description disponible.",
+          runtime: data.runtime,
+          countries: data.production_countries ? data.production_countries.map(c => c.name) : [],
+          spoken_languages: data.spoken_languages ? data.spoken_languages.map(l => l.english_name) : [],
+          original_language: data.original_language,
+          vote_average: data.vote_average,
+          status: data.status,
         });
-    }
+      });
     // Récupérer la bande-annonce
     axios
       .get(`${TMDB_BASE_URL}/movie/${id}/videos?api_key=${API_KEY}`)
@@ -80,9 +79,11 @@ export default function MovieDetails() {
         );
         if (trailerVid) {
           setTrailer(trailerVid);
+        } else {
+          setTrailer(null);
         }
       });
-  }, [id, movie]);
+  }, [id]);
 
   // Génère dynamiquement des épisodes pour chaque film
   function getSimulatedEpisodes(movie) {
