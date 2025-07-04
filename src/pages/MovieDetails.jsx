@@ -243,7 +243,7 @@ export default function MovieDetails() {
         <div className="title-box">
           <div className="title-bg"><h1>{movie.name}</h1></div>
         </div>
-        <div className="fade-bottom" />
+        {/* <div className="fade-bottom" /> */}
       </div>
       {/* Section 2 : Vidéo + Description + Episodes */}
       <div className="section2">

@@ -35,7 +35,11 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
   };
 
   return (
-    <Container onClick={handleShowDetails}>
+    <Container
+      onClick={handleShowDetails}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div className="card-image-container">
         <img
           className="card-image"
@@ -44,6 +48,15 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
         />
         {isNetflixOriginal && (
           <img src={logoNetflix} alt="Netflix logo" className="netflix-logo" />
+        )}
+        {isHovered && (
+          <button
+            className="add-to-list-btn"
+            title="Ajouter à My List"
+            onClick={e => { e.stopPropagation(); addToList(); }}
+          >
+            <AiOutlinePlus size={22} />
+          </button>
         )}
         <div className="card-title-bg">
           <span className="card-title">{movieData.name}</span>
@@ -64,6 +77,12 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+  transition: transform 0.22s cubic-bezier(.21,1.02,.73,1);
+  will-change: transform;
+  &:hover {
+    transform: scale(1.09);
+    z-index: 3;
+  }
   .card-image-container {
     position: relative;
     width: 100%;
@@ -72,6 +91,28 @@ const Container = styled.div`
     overflow: hidden;
     box-shadow: 0 6px 32px 0 rgba(0,0,0,0.38), 0 1.5px 8px 0 rgba(0,0,0,0.18);
     background: #181818;
+    .add-to-list-btn {
+      position: absolute;
+      top: 0.7rem;
+      right: 0.7rem;
+      z-index: 3;
+      background: rgba(0,0,0,0.72);
+      border: none;
+      border-radius: 50%;
+      width: 2.2rem;
+      height: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.18s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      &:hover {
+        background: #e50914;
+        color: #fff;
+      }
+    }
     .card-image {
       width: 100%;
       height: 100%;
