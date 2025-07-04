@@ -40,10 +40,11 @@ function Netflix() {
     return () => (window.onscroll = null);
   };
 
-  // Filtrage en temps réel
-  const filteredMovies = search.trim().length === 0
-    ? movies
-    : movies.filter(m => m.name?.toLowerCase().includes(search.toLowerCase()));
+  // Filtrage local des films selon la recherche
+  const filteredMovies = movies.filter(m =>
+    m.name?.toLowerCase().includes(search.toLowerCase()) ||
+    m.title?.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <Container>
@@ -93,28 +94,26 @@ const Container = styled.div`
     width: 100vw;
     display: flex;
     justify-content: center;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-    z-index: 20;
+    margin: 2.2rem 0 0.5rem 0;
+    z-index: 10;
     position: relative;
   }
   .search-bar {
     width: 340px;
     max-width: 90vw;
-    padding: 0.7rem 1.2rem;
+    padding: 0.8rem 1.2rem;
     border-radius: 2rem;
-    border: 1.5px solid #444;
+    border: none;
     font-size: 1.1rem;
     background: rgba(30,30,30,0.82);
     color: #fff;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
     outline: none;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.12);
-    transition: border 0.18s, box-shadow 0.18s;
-    margin-bottom: 0.5rem;
-  }
-  .search-bar:focus {
-    border: 1.5px solid #fff;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+    transition: box-shadow 0.18s, background 0.18s;
+    &:focus {
+      background: rgba(30,30,30,0.95);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.22);
+    }
   }
   .hero {
     position: relative;

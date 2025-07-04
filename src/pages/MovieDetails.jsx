@@ -133,6 +133,9 @@ export default function MovieDetails() {
     if (activeTab === "other" && similarRef.current) {
       similarRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
+    if (activeTab === "offers" && offerRef.current) {
+      offerRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
   }, [activeTab]);
 
   // Récupère des films similaires (même genre) via TMDB
@@ -324,7 +327,7 @@ export default function MovieDetails() {
         </div>
       </div>
       {/* Section 4 : Vous aimerez peut-être aussi */}
-      <div className="similar-section" ref={similarRef}>
+      <div ref={similarRef} className="similar-section">
         <div
           className="similar-arrow left"
           onClick={() => {
