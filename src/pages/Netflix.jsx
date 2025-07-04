@@ -48,6 +48,9 @@ function Netflix() {
         movie.title?.toLowerCase().includes(search.toLowerCase())
       );
 
+  // Film principal affiché en grand (le premier de la liste filtrée)
+  const mainMovie = filteredMovies[0];
+
   return (
     <Container>
       <Navbar isScrolled={isScrolled} onSearchChange={setSearch} />
@@ -63,13 +66,20 @@ function Netflix() {
           </div>
           <div className="buttons flex">
             <button
-              onClick={() => navigate("/player")}
+              onClick={() => mainMovie && navigate(`/movie/${mainMovie.id}`)}
               className="flex j-center a-center"
+              disabled={!mainMovie}
+              style={!mainMovie ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
             >
               <FaPlay />
               Play
             </button>
-            <button className="flex j-center a-center">
+            <button
+              className="flex j-center a-center"
+              onClick={() => mainMovie && navigate(`/movie/${mainMovie.id}`)}
+              disabled={!mainMovie}
+              style={!mainMovie ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+            >
               <AiOutlineInfoCircle />
               More Info
             </button>
