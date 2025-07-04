@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const OFFERS = [
   {
@@ -68,6 +69,34 @@ export default function OfferPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [selected, setSelected] = useState(location.state?.offer?.key || null);
+  const [showPayment, setShowPayment] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [operator, setOperator] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [paymentResult, setPaymentResult] = useState(null);
+  const [error, setError] = useState(null);
+
+  const selectedOffer = OFFERS.find(o => o.key === selected);
+
+  const handlePayment = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+    setPaymentResult(null);
+    try {
+      const amount = Math.round(parseFloat(selectedOffer.priceUSD.replace('USD','').replace(',','.'))*600);
+      const res = await axios.post("/api/user/payment/moneyfusion", {
+        amount,
+        phone,
+        operator,
+      });
+      setPaymentResult(res.data);
+    } catch (err) {
+      setError(err.response?.data?.error || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Container>
@@ -130,7 +159,33 @@ export default function OfferPage() {
         ))}
       </div>
       <div className="footer">
-        <button className="next-btn">Suivant</button>
+        {!showPayment && (
+          <button className="next-btn" disabled={!selected} onClick={() => setShowPayment(true)}>
+            Suivant
+          </button>
+        )}
+        {showPayment && selectedOffer && (
+          <form className="payment-form" onSubmit={handlePayment}>
+            <h3>Paiement Money Fusion</h3>
+            <div className="form-row">
+              <label>Téléphone</label>
+              <input type="tel" required value={phone} onChange={e => setPhone(e.target.value)} placeholder="Ex: 0700000000" />
+            </div>
+            <div className="form-row">
+              <label>Opérateur</label>
+              <select required value={operator} onChange={e => setOperator(e.target.value)}>
+                <option value="">Choisir...</option>
+                <option value="orange">Orange</option>
+                <option value="mtn">MTN</option>
+                <option value="moov">Moov</option>
+              </select>
+            </div>
+            <button className="pay-btn" type="submit" disabled={loading}>{loading ? 'Paiement...' : `Payer ${Math.round(parseFloat(selectedOffer.priceUSD.replace('USD','').replace(',','.'))*600)} FCFA`}</button>
+            {error && <div className="pay-error">{error}</div>}
+            {paymentResult && paymentResult.success && <div className="pay-success">Paiement réussi !</div>}
+            {paymentResult && paymentResult.success === false && <div className="pay-error">Échec du paiement : {paymentResult.error}</div>}
+          </form>
+        )}
       </div>
     </Container>
   );
@@ -305,6 +360,72 @@ const Container = styled.div`
       transition: background 0.18s;
       &:hover {
         background: #b0060f;
+      }
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+    .payment-form {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      padding: 2.2rem 2.5rem 2rem 2.5rem;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.1rem;
+      h3 {
+        margin: 0 0 0.7rem 0;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #222;
+      }
+      .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        label {
+          font-size: 1.01rem;
+          color: #444;
+          font-weight: 500;
+        }
+        input, select {
+          padding: 0.7rem 0.8rem;
+          border-radius: 6px;
+          border: 1.2px solid #bbb;
+          font-size: 1.08rem;
+        }
+      }
+      .pay-btn {
+        background: #e50914;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.9rem 0;
+        font-size: 1.15rem;
+        font-weight: 700;
+        cursor: pointer;
+        margin-top: 0.7rem;
+        transition: background 0.18s;
+        &:hover {
+          background: #b0060f;
+        }
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+      .pay-error {
+        color: #e50914;
+        font-weight: 600;
+        margin-top: 0.5rem;
+      }
+      .pay-success {
+        color: #0a8a0a;
+        font-weight: 600;
+        margin-top: 0.5rem;
       }
     }
   }
