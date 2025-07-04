@@ -288,13 +288,13 @@ const Container = styled.div`
           border-bottom: none !important;
           outline: none !important;
         }
-        // .tab-btn.active {
-        //   color: #111;
-        //   background: #fff;
-        //   box-shadow: none !important;
-        //   border-bottom: none !important;
-        //   outline: none !important;
-        // }
+        .tab-btn.active {
+          color: #111;
+          background: #fff;
+          box-shadow: none !important;
+          // border-bottom: none !important;
+          outline: none !important;
+        }
         .tab-slider {
           position: absolute;
           bottom: 0.2em;
@@ -315,6 +315,7 @@ const Container = styled.div`
           min-width: 0;
           width: 98vw;
           .tab-btn {
+            overflow-wrap: break-word;
             font-size: 0.7em;
             padding: 0 0.7em;
             height: 32px;
