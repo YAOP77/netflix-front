@@ -315,7 +315,6 @@ const Container = styled.div`
           min-width: 0;
           width: 98vw;
           .tab-btn {
-            overflow-wrap: break-word;
             font-size: 0.7em;
             padding: 0 0.7em;
             height: 32px;
