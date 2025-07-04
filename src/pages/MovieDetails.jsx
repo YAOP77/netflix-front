@@ -542,15 +542,17 @@ const Container = styled.div`
     backdrop-filter: blur(6px);
   }
   .section1-clip {
-    position: relative;
+    position: absolute;
+    left: 0;
+    bottom: -1px;
     width: 100vw;
     height: 70px;
-    margin-top: -70px;
-    z-index: 2;
+    z-index: 10;
     background: #111;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     clip-path: polygon(50% 57%, 77% 51%, 100% 35%, 100% 100%, 85% 100%, 50% 100%, 14% 100%, 0 100%, 0% 35%, 21% 51%);
+    pointer-events: none;
   }
 `; 
