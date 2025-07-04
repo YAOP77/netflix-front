@@ -12,6 +12,29 @@ const NAV_TABS = [
   { key: "episode", label: "Episode" },
 ];
 
+// Mapping nom de genre (français) -> ID TMDB
+const GENRE_NAME_TO_ID = {
+  "Action": 28,
+  "Aventure": 12,
+  "Animation": 16,
+  "Comédie": 35,
+  "Crime": 80,
+  "Documentaire": 99,
+  "Drame": 18,
+  "Familial": 10751,
+  "Fantastique": 14,
+  "Histoire": 36,
+  "Horreur": 27,
+  "Musique": 10402,
+  "Mystère": 9648,
+  "Romance": 10749,
+  "Science-Fiction": 878,
+  "Téléfilm": 10770,
+  "Thriller": 53,
+  "Guerre": 10752,
+  "Western": 37
+};
+
 export default function MovieDetails() {
   const location = useLocation();
   const { id } = useParams();
@@ -108,9 +131,15 @@ export default function MovieDetails() {
     if (!movie || !movie.genres || movie.genres.length === 0) return;
     try {
       // Prend le premier genre du film sélectionné
-      const genre = movie.genres[0];
-      // Appel à TMDB pour récupérer des films du même genre
-      const res = await axios.get(`${TMDB_BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${encodeURIComponent(genre)}&language=fr-FR`);
+      const genreName = movie.genres[0];
+      const genreId = GENRE_NAME_TO_ID[genreName] || null;
+      let res;
+      if (genreId) {
+        res = await axios.get(`${TMDB_BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&language=fr-FR`);
+      } else {
+        // Fallback : films populaires
+        res = await axios.get(`${TMDB_BASE_URL}/movie/popular?api_key=${API_KEY}&language=fr-FR`);
+      }
       // Filtre pour ne pas inclure le film courant
       const filtered = res.data.results.filter(m => m.id !== movie.id).slice(0, 6);
       setSimilarMovies(filtered.map(m => ({
