@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
@@ -18,6 +18,7 @@ export default function MovieDetails() {
   const [trailer, setTrailer] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [activeTab, setActiveTab] = useState("trailer");
+  const episodesRef = useRef(null);
 
   useEffect(() => {
     if (!movie) {
@@ -60,23 +61,29 @@ export default function MovieDetails() {
       title: "Du sang sur les mains",
       duration: 56,
       description: "Pendant leurs fastueuses fiançailles, Sarah et Kola remettent violemment en cause leur relation. Plus tard, Sarah et Kemi se retrouvent dans une dangereuse situation.",
-      image: "https://occ-0-55-116.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABQwQwKk1.jpg?r=1e2", // Remplace par une vraie image si tu veux
+      image: "https://static.tvmaze.com/uploads/images/original_untouched/425/1064370.jpg",
     },
     {
       id: 2,
       title: "Sœurs en cavale",
-      duration: 56,
+      duration: 49,
       description: "La famille de Kola se dispute quant à la suite à donner à sa disparition. De leur côté, Sarah et Kemi cherchent désespérément une solution à leur problème grandissant.",
-      image: "https://occ-0-55-116.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABc2QwKk2.jpg?r=2e3",
+      image: "https://static.tvmaze.com/uploads/images/original_untouched/425/1064371.jpg",
     },
     {
       id: 3,
       title: "La chasse",
       duration: 52,
       description: "La famille de Kola est en deuil. Sarah et Kemi décident de se cacher, mais les ennuis les rattrapent. Une découverte mène l'inspecteur Joe sur une nouvelle piste.",
-      image: "https://occ-0-55-116.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABd3QwKk3.jpg?r=3e4",
+      image: "https://static.tvmaze.com/uploads/images/original_untouched/425/1064372.jpg",
     },
   ];
+
+  useEffect(() => {
+    if (activeTab === "episode" && episodesRef.current) {
+      episodesRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [activeTab]);
 
   if (!movie) return <div style={{ color: '#fff' }}>Chargement...</div>;
 
@@ -127,7 +134,7 @@ export default function MovieDetails() {
         </div>
         <div className="fade-bottom" />
       </div>
-      {/* Section 2 : Vidéo + Description côte à côte, sur fond noir */}
+      {/* Section 2 : Vidéo + Description + Episodes */}
       <div className="section2">
         <div className="row-flex">
           <div className="trailer-section">
@@ -169,6 +176,24 @@ export default function MovieDetails() {
               {movie.status && <span>Statut : {movie.status}</span>}
             </div>
             <div className="desc-body">{movie.description}</div>
+          </div>
+        </div>
+        {/* Partie Episodes dans la section2 */}
+        <div ref={episodesRef} className="episodes-section" style={{marginTop:'2.5rem', display: activeTab === 'episode' ? 'block' : 'none'}}>
+          <h2 className="episodes-title">Épisodes</h2>
+          <div className="episodes-list">
+            {fakeEpisodes.map((ep, idx) => (
+              <div className="episode-card" key={ep.id}>
+                <div className="episode-image-container">
+                  <img src={ep.image} alt={ep.title} className="episode-image" />
+                  <span className="episode-duration">{ep.duration} m</span>
+                </div>
+                <div className="episode-info">
+                  <div className="episode-title"><b>{idx+1}. {ep.title}</b></div>
+                  <div className="episode-desc">{ep.description}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -224,26 +249,6 @@ export default function MovieDetails() {
               allowFullScreen
             />
             <button className="close-btn" onClick={() => setShowModal(false)}>✕</button>
-          </div>
-        </div>
-      )}
-      {/* Section 4 : Épisodes (simulée) */}
-      {activeTab === "episode" && (
-        <div className="episodes-section">
-          <h2 className="episodes-title">Épisodes</h2>
-          <div className="episodes-list">
-            {fakeEpisodes.map((ep, idx) => (
-              <div className="episode-card" key={ep.id}>
-                <div className="episode-image-container">
-                  <img src={ep.image} alt={ep.title} className="episode-image" />
-                  <span className="episode-duration">{ep.duration} m</span>
-                </div>
-                <div className="episode-info">
-                  <div className="episode-title"><b>{idx+1}. {ep.title}</b></div>
-                  <div className="episode-desc">{ep.description}</div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       )}
