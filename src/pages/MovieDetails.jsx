@@ -369,7 +369,9 @@ export default function MovieDetails() {
       )}
       {/* Section 5 : Offres d'abonnement */}
       <div ref={offerRef} className="offers-section">
-        <h2 className="offers-title">Une offre qui répond à vos besoins</h2>
+        <div className="offers-title-bg">
+          <h2 className="offers-title">Une offre qui répond à vos besoins</h2>
+        </div>
         <div className="offers-list">
           {[
             { key: 'mobile', label: 'Mobile', quality: '480p', desc: ['Qualité vidéo normale', 'Pour votre téléphone ou tablette'], price: '2,99 $US/mois', color: 'linear-gradient(135deg,#23243a 0%,#2b2b3c 100%)' },
@@ -960,15 +962,27 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    .offers-title-bg {
+      display: flex;
+      align-items: center;
+      margin-left: 2.5rem;
+      margin-bottom: 1.7rem;
+      margin-top: 0.5rem;
+      background: rgba(20,20,20,0.55);
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.45);
+      padding: 0.5rem 2.2rem;
+      width: fit-content;
+    }
     .offers-title {
       font-size: 2.3rem;
       font-weight: 900;
-      margin-left: 2.5rem;
-      margin-bottom: 2.2rem;
       color: #fff;
       text-shadow: 0 4px 32px rgba(0,0,0,0.95), 0 1px 0 #000;
       letter-spacing: 0.01em;
-      display: block;
+      margin: 0;
+      padding: 0;
+      line-height: 1.1;
     }
     .offers-list {
       display: flex;
