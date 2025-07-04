@@ -35,6 +35,7 @@ const createArrayFromRawData = (array, moviesArray, genres) => {
         name: movie?.original_name ? movie.original_name : movie.original_title,
         image: movie.backdrop_path,
         genres: movieGenres.slice(0, 3),
+        type: movie?.original_name ? "tv" : "movie",
       });
   });
 };

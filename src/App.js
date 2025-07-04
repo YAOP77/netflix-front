@@ -23,6 +23,7 @@ export default function App() {
         <Route exact path="/new" element={<Player />} />
         <Route exact path="/mylist" element={<UserListedMovies />} />
         <Route exact path="/movie/:id" element={<MovieDetails />} />
+        <Route exact path="/tv/:id" element={<MovieDetails />} />
         <Route exact path="/" element={<Netflix />} />
       </Routes>
       <Footer />

@@ -66,7 +66,7 @@ function Netflix() {
           </div>
           <div className="buttons flex">
             <button
-              onClick={() => mainMovie && navigate(`/movie/${mainMovie.id}`)}
+              onClick={() => mainMovie && navigate(`/${mainMovie.type || 'movie'}/${mainMovie.id}`, { state: { type: mainMovie.type || 'movie' } })}
               className="flex j-center a-center"
               disabled={!mainMovie}
               style={!mainMovie ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
@@ -76,7 +76,7 @@ function Netflix() {
             </button>
             <button
               className="flex j-center a-center"
-              onClick={() => mainMovie && navigate(`/movie/${mainMovie.id}`)}
+              onClick={() => mainMovie && navigate(`/${mainMovie.type || 'movie'}/${mainMovie.id}`, { state: { type: mainMovie.type || 'movie' } })}
               disabled={!mainMovie}
               style={!mainMovie ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
             >

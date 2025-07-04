@@ -37,8 +37,8 @@ const GENRE_NAME_TO_ID = {
 };
 
 export default function MovieDetails() {
+  const { id, type: urlType } = useParams();
   const location = useLocation();
-  const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [trailer, setTrailer] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -50,24 +50,29 @@ export default function MovieDetails() {
   const navigate = useNavigate();
   const similarRef = useRef(null);
   const [error, setError] = useState(null);
+  const [errorDetails, setErrorDetails] = useState(null);
+
+  // Détecte le type (movie ou tv) depuis l'URL ou le state, fallback movie
+  const type = urlType || location.state?.type || 'movie';
 
   useEffect(() => {
     setError(null);
+    setErrorDetails(null);
     setMovie(null);
-    // Toujours recharger le film quand l'id change
+    // Toujours recharger le film/série quand l'id ou le type change
     axios
-      .get(`${TMDB_BASE_URL}/movie/${id}?api_key=${API_KEY}&append_to_response=credits`)
+      .get(`${TMDB_BASE_URL}/${type}/${id}?api_key=${API_KEY}&append_to_response=credits`)
       .then(({ data }) => {
         setMovie({
           id: data.id,
-          name: data.title || data.original_title || "Titre inconnu",
+          name: data.title || data.original_title || data.name || data.original_name || "Titre inconnu",
           image: data.backdrop_path || data.poster_path || null,
-          year: data.release_date ? data.release_date.slice(0, 4) : '',
+          year: (data.release_date || data.first_air_date) ? (data.release_date || data.first_air_date).slice(0, 4) : '',
           genres: data.genres ? data.genres.map((g) => g.name) : [],
           actors: data.credits && data.credits.cast ? data.credits.cast.slice(0, 5).map((a) => a.name) : [],
           description: data.overview || "Aucune description disponible.",
-          runtime: data.runtime,
-          countries: data.production_countries ? data.production_countries.map(c => c.name) : [],
+          runtime: data.runtime || (data.episode_run_time ? data.episode_run_time[0] : undefined),
+          countries: data.production_countries ? data.production_countries.map(c => c.name) : (data.origin_country ? data.origin_country : []),
           spoken_languages: data.spoken_languages ? data.spoken_languages.map(l => l.english_name) : [],
           original_language: data.original_language,
           vote_average: data.vote_average,
@@ -75,11 +80,12 @@ export default function MovieDetails() {
         });
       })
       .catch((err) => {
-        setError("Impossible de charger les informations du film. Veuillez réessayer plus tard ou vérifier votre connexion internet.");
+        setError("Impossible de charger les informations du film ou de la série. Veuillez réessayer plus tard ou vérifier votre connexion internet.");
+        setErrorDetails(err?.message || (err?.response && JSON.stringify(err.response.data)) || String(err));
       });
     // Récupérer la bande-annonce
     axios
-      .get(`${TMDB_BASE_URL}/movie/${id}/videos?api_key=${API_KEY}`)
+      .get(`${TMDB_BASE_URL}/${type}/${id}/videos?api_key=${API_KEY}`)
       .then(({ data }) => {
         const trailerVid = data.results.find(
           (vid) => vid.type === "Trailer" && vid.site === "YouTube"
@@ -90,7 +96,7 @@ export default function MovieDetails() {
           setTrailer(null);
         }
       });
-  }, [id]);
+  }, [id, type]);
 
   // Génère dynamiquement des épisodes pour chaque film
   function getSimulatedEpisodes(movie) {
@@ -182,7 +188,14 @@ export default function MovieDetails() {
     }
   }, []);
 
-  if (error) return <div style={{ color: '#fff', padding: 32 }}>{error}</div>;
+  if (error) return <div style={{ color: '#fff', padding: 32 }}>
+    {error}
+    {errorDetails && (
+      <pre style={{ color: '#ffbaba', background: '#222', padding: 12, marginTop: 16, borderRadius: 8, fontSize: 14 }}>
+        {errorDetails}
+      </pre>
+    )}
+  </div>;
   if (!movie) return <div style={{ color: '#fff' }}>Chargement...</div>;
 
   return (
