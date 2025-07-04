@@ -4,6 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { TMDB_BASE_URL, API_KEY } from "../utils/constants";
 import Card from "../components/Card";
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
 const NAV_TABS = [
   { key: "trailer", label: "Bandes-annonces" },
@@ -309,14 +310,34 @@ export default function MovieDetails() {
       </div>
       {/* Section 4 : Vous aimerez peut-être aussi */}
       <div className="similar-section">
+        <div
+          className="similar-arrow left"
+          onClick={() => {
+            const list = document.querySelector('.similar-list');
+            if (list) list.scrollBy({ left: -180, behavior: 'smooth' });
+          }}
+        >
+          <AiOutlineLeft />
+        </div>
         <div className="similar-title-bg">
           <h2 className="similar-title">Vous aimerez peut-être aussi</h2>
         </div>
+        <div
+          className="similar-arrow right"
+          onClick={() => {
+            const list = document.querySelector('.similar-list');
+            if (list) list.scrollBy({ left: 180, behavior: 'smooth' });
+          }}
+        >
+          <AiOutlineRight />
+        </div>
         <div className="similar-list">
           {similarMovies.length === 0 ? (
-            <div style={{color:'#bbb',fontSize:'1.1rem',margin:'2rem'}}>Aucun film similaire trouvé.</div>
+            <div style={{color:'#fff',fontSize:'1.3rem',margin:'2.5rem auto',textAlign:'center'}}>Aucun film similaire trouvé.</div>
           ) : similarMovies.map((m, idx) => (
-            <Card key={m.id} movieData={m} />
+            <div className="similar-card-wrapper" key={m.id}>
+              <Card movieData={m} />
+            </div>
           ))}
         </div>
       </div>
@@ -790,6 +811,50 @@ const Container = styled.div`
     margin: 3.5rem 0 4.5rem 0;
     color: #fff;
     padding: 2.5rem 0 2.5rem 0;
+    position: relative;
+    &:hover .similar-arrow {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .similar-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 38px;
+      height: 88px;
+      background: rgba(60,60,60,0.32);
+      border-radius: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      transition: background 0.18s, box-shadow 0.18s, opacity 0.18s;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 30;
+      svg {
+        color: #fff;
+        font-size: 2.1rem;
+        transition: color 0.18s;
+      }
+      &:hover {
+        background: rgba(120,120,120,0.44);
+        box-shadow: 0 4px 18px rgba(0,0,0,0.28);
+        opacity: 1;
+        svg {
+          color: #fff;
+        }
+      }
+    }
+    .similar-arrow.left {
+      left: 0.5rem;
+    }
+    .similar-arrow.right {
+      right: 0.5rem;
+    }
     .similar-title-bg {
       position: relative;
       z-index: 20;
@@ -829,10 +894,20 @@ const Container = styled.div`
       &::-webkit-scrollbar {
         display: none;
       }
-      .card-image-container, .desc-card, .trailer-card, .details-card {
-        background: rgba(30,30,30,0.82) !important;
-        box-shadow: 0 6px 32px 0 rgba(0,0,0,0.38), 0 1.5px 8px 0 rgba(0,0,0,0.18);
-        border: 1.5px solid rgba(255,255,255,0.08);
+      .similar-card-wrapper {
+        min-width: 140px;
+        max-width: 140px;
+        width: 140px;
+        aspect-ratio: 2/3;
+        margin: 0 0.3rem;
+        display: flex;
+        align-items: stretch;
+      }
+      .card-image-container {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        aspect-ratio: 2/3;
       }
     }
     .similar-list > div[style] {
