@@ -45,6 +45,8 @@ export default function MovieDetails() {
   const [activeTab, setActiveTab] = useState("trailer");
   const episodesRef = useRef(null);
   const [similarMovies, setSimilarMovies] = useState([]);
+  const [selectedOffer, setSelectedOffer] = useState(null);
+  const offerRef = useRef(null);
 
   useEffect(() => {
     if (!movie) {
@@ -158,6 +160,13 @@ export default function MovieDetails() {
     fetchSimilarMovies();
   }, [fetchSimilarMovies]);
 
+  // Scroll vers l'offre si on clique sur un épisode
+  const handleEpisodeClick = useCallback(() => {
+    if (offerRef.current) {
+      offerRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, []);
+
   if (!movie) return <div style={{ color: '#fff' }}>Chargement...</div>;
 
   return (
@@ -256,7 +265,7 @@ export default function MovieDetails() {
           <h2 className="episodes-title">Épisodes</h2>
           <div className="episodes-list">
             {fakeEpisodes.map((ep, idx) => (
-              <div className="episode-card" key={ep.id}>
+              <div className="episode-card episode-clickable" key={ep.id} onClick={handleEpisodeClick} style={{cursor:'pointer'}}>
                 <div className="episode-image-container">
                   <img src={ep.image} alt={ep.title} className={`episode-image${ep.effect ? ' effect-' + ep.effect : ''}`} />
                   <span className="episode-duration">{ep.duration} m</span>
@@ -358,6 +367,33 @@ export default function MovieDetails() {
           </div>
         </div>
       )}
+      {/* Section 5 : Offres d'abonnement */}
+      <div ref={offerRef} className="offers-section">
+        <h2 className="offers-title">Une offre qui répond à vos besoins</h2>
+        <div className="offers-list">
+          {[
+            { key: 'mobile', label: 'Mobile', quality: '480p', desc: ['Qualité vidéo normale', 'Pour votre téléphone ou tablette'], price: '2,99 $US/mois', color: 'linear-gradient(135deg,#23243a 0%,#2b2b3c 100%)' },
+            { key: 'essentiel', label: 'Essentiel', quality: '720p', desc: ['Bonne qualité vidéo', 'Pour votre téléphone, tablette, ordinateur et TV'], price: '3,99 $US/mois', color: 'linear-gradient(135deg,#1e2a47 0%,#2b3c5c 100%)' },
+            { key: 'standard', label: 'Standard', quality: '1080p', desc: ['Excellente qualité vidéo', 'Pour votre téléphone, tablette, ordinateur et TV'], price: '7,99 $US/mois', color: 'linear-gradient(135deg,#2a1e47 0%,#5c2b3c 100%)' },
+            { key: 'premium', label: 'Premium', quality: '4K + HDR', desc: ['Qualité vidéo optimale', 'Un son immersif (audio spatial)', 'Pour votre téléphone, tablette, ordinateur et TV'], price: '9,99 $US/mois', color: 'linear-gradient(135deg,#4a1e47 0%,#7c2b5c 100%)', popular: true },
+          ].map((offer, idx) => (
+            <div
+              key={offer.key}
+              className={`offer-card${selectedOffer === offer.key ? ' offer-selected' : ''}${offer.popular ? ' offer-popular' : ''}`}
+              style={{ background: offer.color, border: selectedOffer === offer.key ? '2.5px solid #fff' : '1.5px solid #888' }}
+              onClick={() => setSelectedOffer(offer.key)}
+            >
+              {offer.popular && <div className="offer-popular-badge">La plus populaire</div>}
+              <div className="offer-label">{offer.label}</div>
+              <div className="offer-quality">{offer.quality}</div>
+              <ul className="offer-desc">
+                {offer.desc.map((d, i) => <li key={i}>{d}</li>)}
+              </ul>
+              <div className="offer-price">{offer.price}</div>
+            </div>
+          ))}
+        </div>
+      </div>
     </Container>
   );
 }
@@ -917,5 +953,116 @@ const Container = styled.div`
       margin: 2.5rem auto !important;
       text-shadow: 0 2px 8px rgba(0,0,0,0.45);
     }
+  }
+  .offers-section {
+    margin: 4.5rem 0 2.5rem 0;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    .offers-title {
+      font-size: 2.3rem;
+      font-weight: 900;
+      margin-left: 2.5rem;
+      margin-bottom: 2.2rem;
+      color: #fff;
+      text-shadow: 0 4px 32px rgba(0,0,0,0.95), 0 1px 0 #000;
+      letter-spacing: 0.01em;
+      display: block;
+    }
+    .offers-list {
+      display: flex;
+      flex-direction: row;
+      gap: 2.2rem;
+      justify-content: flex-start;
+      align-items: stretch;
+      flex-wrap: wrap;
+      padding: 0 2.5rem;
+      width: 100%;
+      @media (max-width: 900px) {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 0 0.5rem;
+      }
+    }
+    .offer-card {
+      min-width: 220px;
+      max-width: 260px;
+      width: 100%;
+      border-radius: 1.2rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+      padding: 2.2rem 1.5rem 1.5rem 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+      cursor: pointer;
+      transition: border 0.18s, box-shadow 0.18s, background 0.18s;
+      border: 1.5px solid #888;
+      &:hover, &.offer-selected {
+        border: 2.5px solid #fff;
+        box-shadow: 0 6px 32px 0 rgba(0,0,0,0.38), 0 1.5px 8px 0 rgba(0,0,0,0.18);
+        background: linear-gradient(135deg,#2b2b3c 0%,#4a1e47 100%) !important;
+      }
+      &.offer-popular {
+        border: 2.5px solid #fff;
+        background: linear-gradient(135deg,#7c2b5c 0%,#4a1e47 100%) !important;
+      }
+      .offer-popular-badge {
+        position: absolute;
+        top: 0.7rem;
+        right: 0.7rem;
+        background: #b9b6e3;
+        color: #3a2b4a;
+        font-size: 0.95rem;
+        font-weight: 700;
+        border-radius: 0.7rem;
+        padding: 0.2rem 1.1rem;
+        z-index: 2;
+      }
+      .offer-label {
+        font-size: 1.35rem;
+        font-weight: 800;
+        margin-bottom: 0.2rem;
+      }
+      .offer-quality {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.7rem;
+        color: #b9b6e3;
+      }
+      .offer-desc {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1.2rem 0;
+        color: #fff;
+        font-size: 1.01rem;
+        li {
+          margin-bottom: 0.3rem;
+          position: relative;
+          padding-left: 1.2em;
+        }
+        li:before {
+          content: '✓';
+          position: absolute;
+          left: 0;
+          color: #b9b6e3;
+          font-weight: bold;
+        }
+      }
+      .offer-price {
+        font-size: 1.25rem;
+        font-weight: 800;
+        margin-top: 0.7rem;
+        color: #fff;
+      }
+    }
+  }
+  .episode-clickable:hover {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.22);
+    background: rgba(60,60,60,0.18) !important;
+    transition: box-shadow 0.18s, background 0.18s;
   }
 `; 
