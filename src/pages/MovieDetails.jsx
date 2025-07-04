@@ -31,6 +31,12 @@ export default function MovieDetails() {
             genres: data.genres ? data.genres.map((g) => g.name) : [],
             actors: data.credits && data.credits.cast ? data.credits.cast.slice(0, 5).map((a) => a.name) : [],
             description: data.overview || "Aucune description disponible.",
+            runtime: data.runtime,
+            countries: data.production_countries ? data.production_countries.map(c => c.name) : [],
+            spoken_languages: data.spoken_languages ? data.spoken_languages.map(l => l.english_name) : [],
+            original_language: data.original_language,
+            vote_average: data.vote_average,
+            status: data.status,
           });
         });
     }
@@ -127,6 +133,13 @@ export default function MovieDetails() {
               {movie.actors && movie.actors.length > 0 && (
                 <div className="desc-actors"><b>Avec :</b> {movie.actors.join(", ")}</div>
               )}
+            </div>
+            <div className="desc-infos" style={{marginTop:'0.7em',marginBottom:'0.7em',fontSize:'1em',color:'#bbb',display:'flex',flexWrap:'wrap',gap:'1.5em'}}>
+              {movie.runtime && <span>Durée : {movie.runtime} min</span>}
+              {movie.countries && movie.countries.length > 0 && <span>Pays : {movie.countries.join(", ")}</span>}
+              {movie.spoken_languages && movie.spoken_languages.length > 0 && <span>Langues : {movie.spoken_languages.join(", ")}</span>}
+              {movie.vote_average && <span>Note : {movie.vote_average}/10</span>}
+              {movie.status && <span>Statut : {movie.status}</span>}
             </div>
             <div className="desc-body">{movie.description}</div>
           </div>
@@ -256,7 +269,7 @@ const Container = styled.div`
           border: none;
           outline: none;
           color: #fff;
-          font-size: 0.9em;
+          font-size: 0.7em;
           font-weight: 600;
           cursor: pointer;
           padding: 0;
@@ -372,6 +385,15 @@ const Container = styled.div`
         min-width: 200px;
         text-align: right;
       }
+    }
+    .desc-infos {
+      margin-top: 0.7em;
+      margin-bottom: 0.7em;
+      font-size: 1em;
+      color: #bbb;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5em;
     }
     .desc-body {
       font-size: 1.15rem;
