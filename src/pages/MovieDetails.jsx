@@ -209,7 +209,7 @@ const Container = styled.div`
     z-index: 0;
     background-size: cover;
     background-position: center;
-    filter: blur(60px) brightness(0.7);
+    filter: blur(38px) brightness(0.7);
     pointer-events: none;
     transition: background-image 0.4s;
   }
@@ -232,14 +232,12 @@ const Container = styled.div`
       position: absolute;
       top: 2.2rem;
       left: 50%;
-      transform: translateX(-50%) translateY(-18px);
-      z-index: 50;
+      transform: translateX(-50%);
+      z-index: 20;
       display: flex;
       justify-content: center;
       width: 340px;
-      box-shadow: 0 12px 48px 0 rgba(0,0,0,0.55), 0 1.5px 8px 0 rgba(0,0,0,0.18) !important;
-      background: rgba(20,20,20,0.98);
-      border-radius: 2.2rem;
+      box-shadow: 0 6px 32px 0 rgba(0,0,0,0.38), 0 1.5px 8px 0 rgba(0,0,0,0.18) !important;
       @media (max-width: 600px) {
         width: 98vw;
       }
@@ -526,7 +524,7 @@ const Container = styled.div`
       a { color: #fff; text-decoration: underline; }
     }
   }
-  .desc-card, .trailer-card {
+  .desc-card, .trailer-card, .details-card {
     background: rgba(30,30,30,0.48) !important;
     border-radius: 1.2rem;
     padding: 2rem 2.5rem;
@@ -536,6 +534,5 @@ const Container = styled.div`
     box-shadow: 0 4px 32px rgba(0,0,0,0.18);
     margin-bottom: 1.5rem;
     backdrop-filter: blur(6px);
-    border: 2px solid #444;
   }
 `; 
