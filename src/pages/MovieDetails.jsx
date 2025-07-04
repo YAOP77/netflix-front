@@ -237,7 +237,7 @@ const Container = styled.div`
       display: flex;
       justify-content: center;
       width: 340px;
-      box-shadow: 0 6px 32px 0 rgba(0,0,0,0.38), 0 1.5px 8px 0 rgba(0,0,0,0.18);
+      box-shadow: 0 6px 32px 0 rgba(0,0,0,0.38), 0 1.5px 8px 0 rgba(0,0,0,0.18) !important;
       @media (max-width: 600px) {
         width: 98vw;
       }
@@ -314,7 +314,7 @@ const Container = styled.div`
       height: 8vh;
       background: linear-gradient(180deg,rgba(0,0,0,0.01) 0%,rgba(0,0,0,0.85) 100%);
       z-index: 2;
-      box-shadow: 0 12px 48px 0 rgba(0,0,0,0.55), 0 1.5px 8px 0 rgba(0,0,0,0.18);
+      box-shadow: 0 12px 48px 0 rgba(0,0,0,0.55), 0 1.5px 8px 0 rgba(0,0,0,0.18) !important;
     }
   }
   .section2 {
