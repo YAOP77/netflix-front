@@ -374,10 +374,10 @@ export default function MovieDetails() {
         </div>
         <div className="offers-list">
           {[
-            { key: 'mobile', label: 'Mobile', quality: '480p', desc: ['Qualité vidéo normale', 'Pour votre téléphone ou tablette'], price: '2,99 $US/mois', color: 'linear-gradient(135deg,#23243a 0%,#2b2b3c 100%)' },
-            { key: 'essentiel', label: 'Essentiel', quality: '720p', desc: ['Bonne qualité vidéo', 'Pour votre téléphone, tablette, ordinateur et TV'], price: '3,99 $US/mois', color: 'linear-gradient(135deg,#1e2a47 0%,#2b3c5c 100%)' },
-            { key: 'standard', label: 'Standard', quality: '1080p', desc: ['Excellente qualité vidéo', 'Pour votre téléphone, tablette, ordinateur et TV'], price: '7,99 $US/mois', color: 'linear-gradient(135deg,#2a1e47 0%,#5c2b3c 100%)' },
-            { key: 'premium', label: 'Premium', quality: '4K + HDR', desc: ['Qualité vidéo optimale', 'Un son immersif (audio spatial)', 'Pour votre téléphone, tablette, ordinateur et TV'], price: '9,99 $US/mois', color: 'linear-gradient(135deg,#4a1e47 0%,#7c2b5c 100%)', popular: true },
+            { key: 'mobile', label: 'Mobile', quality: '480p', desc: ['Qualité vidéo normale', 'Pour votre téléphone ou tablette'], price: '2500 FCFA/mois', color: 'linear-gradient(135deg,#23243a 0%,#2b2b3c 100%)' },
+            { key: 'essentiel', label: 'Essentiel', quality: '720p', desc: ['Bonne qualité vidéo', 'Pour votre téléphone, tablette, ordinateur et TV'], price: '5000 FCFA/mois', color: 'linear-gradient(135deg,#1e2a47 0%,#2b3c5c 100%)' },
+            { key: 'standard', label: 'Standard', quality: '1080p', desc: ['Excellente qualité vidéo', 'Pour votre téléphone, tablette, ordinateur et TV'], price: '10 000 FCFA/mois', color: 'linear-gradient(135deg,#2a1e47 0%,#5c2b3c 100%)' },
+            { key: 'premium', label: 'Premium', quality: '4K + HDR', desc: ['Qualité vidéo optimale', 'Un son immersif (audio spatial)', 'Pour votre téléphone, tablette, ordinateur et TV'], price: '20 500 FCFA/mois', color: 'linear-gradient(135deg,#4a1e47 0%,#7c2b5c 100%)', popular: true },
           ].map((offer, idx) => (
             <div
               key={offer.key}
