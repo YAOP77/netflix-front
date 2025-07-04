@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import styled from "styled-components";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { TMDB_BASE_URL, API_KEY } from "../utils/constants";
 import Card from "../components/Card";
@@ -47,6 +47,7 @@ export default function MovieDetails() {
   const [similarMovies, setSimilarMovies] = useState([]);
   const [selectedOffer, setSelectedOffer] = useState(null);
   const offerRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!movie) {
@@ -344,7 +345,12 @@ export default function MovieDetails() {
           {similarMovies.length === 0 ? (
             <div style={{color:'#fff',fontSize:'1.3rem',margin:'2.5rem auto',textAlign:'center'}}>Aucun film similaire trouvé.</div>
           ) : similarMovies.map((m, idx) => (
-            <div className="similar-card-wrapper" key={m.id}>
+            <div
+              className="similar-card-wrapper"
+              key={m.id}
+              style={{cursor:'pointer'}}
+              onClick={() => navigate(`/movie/${m.id}`, { state: { movie: m } })}
+            >
               <Card movieData={m} />
             </div>
           ))}
