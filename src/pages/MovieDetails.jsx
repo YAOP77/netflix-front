@@ -325,8 +325,9 @@ const Container = styled.div`
   }
   .section2 {
     background: transparent !important;
-    margin-top: 0;
-    padding-top: 2.5rem;
+    clip-path: polygon(50% 57%, 77% 51%, 100% 35%, 100% 100%, 85% 100%, 50% 100%, 14% 100%, 0 100%, 0% 35%, 21% 51%);
+    margin-top: -40px;
+    padding-top: 4.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
