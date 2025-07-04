@@ -58,11 +58,9 @@ export default function MovieDetails() {
   // Génère dynamiquement des épisodes pour chaque film
   function getSimulatedEpisodes(movie) {
     if (!movie) return [];
-    // Utilise l'image principale du film pour le premier épisode
     const mainImage = movie.image
       ? `https://image.tmdb.org/t/p/original${movie.image}`
       : "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80";
-    // Images génériques pour les autres épisodes
     const genericImages = [
       "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1517602302552-471fe67acf66?auto=format&fit=crop&w=800&q=80",
@@ -70,16 +68,25 @@ export default function MovieDetails() {
       "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=800&q=80",
       "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80"
     ];
-    // Génère 3 épisodes
+    // Titres variés
+    const episodeTitles = [
+      `Le secret de ${movie.name.split(' ')[0]}`,
+      `Face à l'inconnu` ,
+      `La revanche de ${movie.name.split(' ')[0]}`
+    ];
+    // Descriptions immersives
+    const episodeDescs = [
+      `Dans ce premier épisode, ${movie.name} découvre un secret qui va bouleverser sa vie. Entre doutes et révélations, il/elle devra faire face à ses peurs les plus profondes.`,
+      `Alors que la tension monte, un nouvel ennemi surgit de l'ombre. ${movie.name} et ses alliés devront s'unir pour affronter une menace inattendue, au péril de leur existence.`,
+      `L'heure de la revanche a sonné. Après de multiples épreuves, ${movie.name} prend une décision radicale qui changera le cours de l'histoire. Mais à quel prix ?`
+    ];
     return [1,2,3].map((num, idx) => {
       const duration = 40 + Math.floor(Math.random()*20); // 40-59 min
-      const title = `Épisode ${num} : ${movie.name.split(' ')[0]}`;
-      const description = `Dans cet épisode, ${movie.name} fait face à de nouveaux défis inattendus. Découvrez la suite de l'aventure !`;
       return {
         id: num,
-        title,
+        title: episodeTitles[idx % episodeTitles.length],
         duration,
-        description,
+        description: episodeDescs[idx % episodeDescs.length],
         image: idx === 0 ? mainImage : genericImages[(idx+movie.id)%genericImages.length],
       };
     });
