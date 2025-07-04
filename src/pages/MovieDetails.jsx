@@ -94,6 +94,14 @@ export default function MovieDetails() {
         </div>
         <div className="fade-bottom" />
       </div>
+      {/* Clip décoratif entre section1 et section2 */}
+      <div
+        className="section1-clip"
+        style={{
+          backgroundImage: movie.image ? `url(https://image.tmdb.org/t/p/original${movie.image})` : undefined,
+          backgroundAttachment: "fixed"
+        }}
+      />
       {/* Section 2 : Vidéo + Description côte à côte, sur fond noir */}
       <div className="section2">
         <div className="row-flex">
@@ -317,7 +325,6 @@ const Container = styled.div`
   }
   .section2 {
     background: transparent !important;
-    clip-path: polygon(50% 57%, 77% 51%, 100% 35%, 100% 100%, 85% 100%, 50% 100%, 14% 100%, 0 100%, 0% 35%, 21% 51%);
     margin-top: 0;
     padding-top: 2.5rem;
     display: flex;
@@ -533,5 +540,17 @@ const Container = styled.div`
     box-shadow: 0 4px 32px rgba(0,0,0,0.18);
     margin-bottom: 1.5rem;
     backdrop-filter: blur(6px);
+  }
+  .section1-clip {
+    position: relative;
+    width: 100vw;
+    height: 70px;
+    margin-top: -70px;
+    z-index: 2;
+    background: #111;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    clip-path: polygon(50% 57%, 77% 51%, 100% 35%, 100% 100%, 85% 100%, 50% 100%, 14% 100%, 0 100%, 0% 35%, 21% 51%);
   }
 `; 
