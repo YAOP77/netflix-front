@@ -55,29 +55,81 @@ export default function MovieDetails() {
       });
   }, [id, movie]);
 
-  const fakeEpisodes = [
-    {
-      id: 1,
-      title: "Du sang sur les mains",
-      duration: 56,
-      description: "Pendant leurs fastueuses fiançailles, Sarah et Kola remettent violemment en cause leur relation. Plus tard, Sarah et Kemi se retrouvent dans une dangereuse situation.",
-      image: "https://static.tvmaze.com/uploads/images/original_untouched/425/1064370.jpg",
-    },
-    {
-      id: 2,
-      title: "Sœurs en cavale",
-      duration: 49,
-      description: "La famille de Kola se dispute quant à la suite à donner à sa disparition. De leur côté, Sarah et Kemi cherchent désespérément une solution à leur problème grandissant.",
-      image: "https://static.tvmaze.com/uploads/images/original_untouched/425/1064371.jpg",
-    },
-    {
-      id: 3,
-      title: "La chasse",
-      duration: 52,
-      description: "La famille de Kola est en deuil. Sarah et Kemi décident de se cacher, mais les ennuis les rattrapent. Une découverte mène l'inspecteur Joe sur une nouvelle piste.",
-      image: "https://static.tvmaze.com/uploads/images/original_untouched/425/1064372.jpg",
-    },
-  ];
+  // Simule dynamiquement les épisodes selon le film sélectionné
+  let fakeEpisodes = [];
+  if (movie && movie.name && movie.name.toLowerCase().includes('superman')) {
+    fakeEpisodes = [
+      {
+        id: 1,
+        title: "L'Appel de Krypton",
+        duration: 42,
+        description: "Clark découvre ses origines et doit choisir entre sa vie humaine et son destin de héros.",
+        image: "https://static.tvmaze.com/uploads/images/original_untouched/1/2668.jpg",
+      },
+      {
+        id: 2,
+        title: "Luthor contre-attaque",
+        duration: 44,
+        description: "Lex Luthor met en place un plan machiavélique pour démasquer Superman.",
+        image: "https://static.tvmaze.com/uploads/images/original_untouched/1/2670.jpg",
+      },
+      {
+        id: 3,
+        title: "La Forteresse de Solitude",
+        duration: 47,
+        description: "Superman se rend dans sa forteresse pour trouver des réponses sur sa famille.",
+        image: "https://static.tvmaze.com/uploads/images/original_untouched/1/2671.jpg",
+      },
+    ];
+  } else if (movie && movie.name && movie.name.toLowerCase().includes('blood sisters')) {
+    fakeEpisodes = [
+      {
+        id: 1,
+        title: "Du sang sur les mains",
+        duration: 56,
+        description: "Pendant leurs fastueuses fiançailles, Sarah et Kola remettent violemment en cause leur relation. Plus tard, Sarah et Kemi se retrouvent dans une dangereuse situation.",
+        image: "https://static.tvmaze.com/uploads/images/original_untouched/425/1064370.jpg",
+      },
+      {
+        id: 2,
+        title: "Sœurs en cavale",
+        duration: 49,
+        description: "La famille de Kola se dispute quant à la suite à donner à sa disparition. De leur côté, Sarah et Kemi cherchent désespérément une solution à leur problème grandissant.",
+        image: "https://static.tvmaze.com/uploads/images/original_untouched/425/1064371.jpg",
+      },
+      {
+        id: 3,
+        title: "La chasse",
+        duration: 52,
+        description: "La famille de Kola est en deuil. Sarah et Kemi décident de se cacher, mais les ennuis les rattrapent. Une découverte mène l'inspecteur Joe sur une nouvelle piste.",
+        image: "https://static.tvmaze.com/uploads/images/original_untouched/425/1064372.jpg",
+      },
+    ];
+  } else {
+    fakeEpisodes = [
+      {
+        id: 1,
+        title: "Épisode 1",
+        duration: 45,
+        description: "Premier épisode palpitant du film sélectionné.",
+        image: "https://static.tvmaze.com/uploads/images/original_untouched/1/2668.jpg",
+      },
+      {
+        id: 2,
+        title: "Épisode 2",
+        duration: 48,
+        description: "Suite des aventures du héros ou de l'héroïne.",
+        image: "https://static.tvmaze.com/uploads/images/original_untouched/1/2670.jpg",
+      },
+      {
+        id: 3,
+        title: "Épisode 3",
+        duration: 50,
+        description: "Un rebondissement inattendu bouleverse l'histoire.",
+        image: "https://static.tvmaze.com/uploads/images/original_untouched/1/2671.jpg",
+      },
+    ];
+  }
 
   useEffect(() => {
     if (activeTab === "episode" && episodesRef.current) {
@@ -643,7 +695,7 @@ const Container = styled.div`
       }
     }
     .episode-card {
-      background: rgba(30,30,30,0.82);
+      background: rgba(30,30,30,0.48) !important;
       border-radius: 1.2rem;
       box-shadow: 0 2px 16px rgba(0,0,0,0.18);
       padding: 0 0 1.2rem 0;
@@ -655,6 +707,7 @@ const Container = styled.div`
       flex-direction: column;
       align-items: flex-start;
       overflow: hidden;
+      backdrop-filter: blur(6px);
       .episode-image-container {
         position: relative;
         width: 100%;
