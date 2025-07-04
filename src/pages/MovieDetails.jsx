@@ -199,6 +199,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: stretch;
   justify-content: flex-start;
+  z-index: 1;
 
   .blur-bg {
     position: fixed;
@@ -233,7 +234,7 @@ const Container = styled.div`
       top: 2.2rem;
       left: 50%;
       transform: translateX(-50%);
-      z-index: 190;
+      z-index: 9999 !important;
       display: flex;
       justify-content: center;
       width: 480px;
