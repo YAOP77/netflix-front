@@ -796,17 +796,19 @@ const Container = styled.div`
       margin-left: 2.5rem;
       margin-bottom: 1.7rem;
       margin-top: 0.5rem;
-      background: rgba(20,20,20,0.55);
+      background: rgba(20,20,20,0.85) !important;
       border-radius: 1.5rem;
-      box-shadow: 0 4px 32px rgba(0,0,0,0.45);
-      padding: 0.5rem 2.2rem;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.65);
+      padding: 0.7rem 2.7rem;
       width: fit-content;
+      z-index: 1000;
+      border: 2px solid rgba(255,255,255,0.12);
     }
     .similar-title {
-      font-size: 2.4rem;
-      font-weight: 900;
-      color: #fff;
-      text-shadow: 0 4px 32px rgba(0,0,0,0.95), 0 1px 0 #000;
+      font-size: 2.4rem !important;
+      font-weight: 900 !important;
+      color: #fff !important;
+      text-shadow: 0 4px 32px rgba(0,0,0,0.95), 0 1px 0 #000 !important;
       letter-spacing: 0.01em;
       margin: 0;
       padding: 0;
