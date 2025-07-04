@@ -309,7 +309,9 @@ export default function MovieDetails() {
       </div>
       {/* Section 4 : Vous aimerez peut-être aussi */}
       <div className="similar-section">
-        <h2 className="similar-title">Vous aimerez peut-être aussi</h2>
+        <div className="similar-title-bg">
+          <h2 className="similar-title">Vous aimerez peut-être aussi</h2>
+        </div>
         <div className="similar-list">
           {similarMovies.length === 0 ? (
             <div style={{color:'#bbb',fontSize:'1.1rem',margin:'2rem'}}>Aucun film similaire trouvé.</div>
@@ -788,16 +790,27 @@ const Container = styled.div`
     margin: 3.5rem 0 4.5rem 0;
     color: #fff;
     padding: 2.5rem 0 2.5rem 0;
+    .similar-title-bg {
+      display: flex;
+      align-items: center;
+      margin-left: 2.5rem;
+      margin-bottom: 1.7rem;
+      margin-top: 0.5rem;
+      background: rgba(20,20,20,0.55);
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.45);
+      padding: 0.5rem 2.2rem;
+      width: fit-content;
+    }
     .similar-title {
       font-size: 2.4rem;
-      font-weight: bold;
-      margin-left: 2.5rem;
-      margin-bottom: 2.2rem;
-      margin-top: 1.5rem;
+      font-weight: 900;
       color: #fff;
       text-shadow: 0 4px 32px rgba(0,0,0,0.95), 0 1px 0 #000;
       letter-spacing: 0.01em;
-      display: block;
+      margin: 0;
+      padding: 0;
+      line-height: 1.1;
     }
     .similar-list {
       display: flex;
