@@ -54,6 +54,30 @@ export default function MovieDetails() {
       });
   }, [id, movie]);
 
+  const fakeEpisodes = [
+    {
+      id: 1,
+      title: "Du sang sur les mains",
+      duration: 56,
+      description: "Pendant leurs fastueuses fiançailles, Sarah et Kola remettent violemment en cause leur relation. Plus tard, Sarah et Kemi se retrouvent dans une dangereuse situation.",
+      image: "https://occ-0-55-116.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABQwQwKk1.jpg?r=1e2", // Remplace par une vraie image si tu veux
+    },
+    {
+      id: 2,
+      title: "Sœurs en cavale",
+      duration: 56,
+      description: "La famille de Kola se dispute quant à la suite à donner à sa disparition. De leur côté, Sarah et Kemi cherchent désespérément une solution à leur problème grandissant.",
+      image: "https://occ-0-55-116.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABc2QwKk2.jpg?r=2e3",
+    },
+    {
+      id: 3,
+      title: "La chasse",
+      duration: 52,
+      description: "La famille de Kola est en deuil. Sarah et Kemi décident de se cacher, mais les ennuis les rattrapent. Une découverte mène l'inspecteur Joe sur une nouvelle piste.",
+      image: "https://occ-0-55-116.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABd3QwKk3.jpg?r=3e4",
+    },
+  ];
+
   if (!movie) return <div style={{ color: '#fff' }}>Chargement...</div>;
 
   return (
@@ -203,6 +227,26 @@ export default function MovieDetails() {
           </div>
         </div>
       )}
+      {/* Section 4 : Épisodes (simulée) */}
+      {activeTab === "episode" && (
+        <div className="episodes-section">
+          <h2 className="episodes-title">Épisodes</h2>
+          <div className="episodes-list">
+            {fakeEpisodes.map((ep, idx) => (
+              <div className="episode-card" key={ep.id}>
+                <div className="episode-image-container">
+                  <img src={ep.image} alt={ep.title} className="episode-image" />
+                  <span className="episode-duration">{ep.duration} m</span>
+                </div>
+                <div className="episode-info">
+                  <div className="episode-title"><b>{idx+1}. {ep.title}</b></div>
+                  <div className="episode-desc">{ep.description}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </Container>
   );
 }
@@ -274,7 +318,7 @@ const Container = styled.div`
           border: none;
           outline: none;
           color: #fff;
-          font-size: 0.9em;
+          font-size: 0.7em;
           font-weight: 700;
           cursor: pointer;
           padding: 0 1.2em;
@@ -569,5 +613,79 @@ const Container = styled.div`
     box-shadow: 0 4px 32px rgba(0,0,0,0.18);
     margin-bottom: 1.5rem;
     backdrop-filter: blur(6px);
+  }
+  .episodes-section {
+    margin: 2.5rem 0 3.5rem 0;
+    color: #fff;
+    .episodes-title {
+      font-size: 2.2rem;
+      font-weight: bold;
+      margin-left: 2.5rem;
+      margin-bottom: 2.2rem;
+    }
+    .episodes-list {
+      display: flex;
+      flex-direction: row;
+      gap: 2.2rem;
+      justify-content: flex-start;
+      align-items: stretch;
+      flex-wrap: wrap;
+      padding: 0 2.5rem;
+      @media (max-width: 900px) {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 0 0.5rem;
+      }
+    }
+    .episode-card {
+      background: rgba(30,30,30,0.82);
+      border-radius: 1.2rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+      padding: 0 0 1.2rem 0;
+      min-width: 320px;
+      max-width: 370px;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      overflow: hidden;
+      .episode-image-container {
+        position: relative;
+        width: 100%;
+        height: 170px;
+        overflow: hidden;
+        border-top-left-radius: 1.2rem;
+        border-top-right-radius: 1.2rem;
+        .episode-image {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .episode-duration {
+          position: absolute;
+          right: 0.7rem;
+          bottom: 0.7rem;
+          background: rgba(0,0,0,0.7);
+          color: #fff;
+          font-size: 1rem;
+          padding: 0.15em 0.7em;
+          border-radius: 0.7em;
+        }
+      }
+      .episode-info {
+        padding: 1.1rem 1.2rem 0 1.2rem;
+        .episode-title {
+          font-size: 1.1rem;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+        }
+        .episode-desc {
+          font-size: 1rem;
+          color: #ddd;
+        }
+      }
+    }
   }
 `; 
