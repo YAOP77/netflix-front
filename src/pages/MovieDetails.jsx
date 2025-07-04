@@ -55,81 +55,38 @@ export default function MovieDetails() {
       });
   }, [id, movie]);
 
-  // Simule dynamiquement les épisodes selon le film sélectionné
-  let fakeEpisodes = [];
-  if (movie && movie.name && movie.name.toLowerCase().includes('superman')) {
-    fakeEpisodes = [
-      {
-        id: 1,
-        title: "L'Appel de Krypton",
-        duration: 42,
-        description: "Clark découvre ses origines et doit choisir entre sa vie humaine et son destin de héros.",
-        image: "https://static.tvmaze.com/uploads/images/original_untouched/1/2668.jpg",
-      },
-      {
-        id: 2,
-        title: "Luthor contre-attaque",
-        duration: 44,
-        description: "Lex Luthor met en place un plan machiavélique pour démasquer Superman.",
-        image: "https://static.tvmaze.com/uploads/images/original_untouched/1/2670.jpg",
-      },
-      {
-        id: 3,
-        title: "La Forteresse de Solitude",
-        duration: 47,
-        description: "Superman se rend dans sa forteresse pour trouver des réponses sur sa famille.",
-        image: "https://static.tvmaze.com/uploads/images/original_untouched/1/2671.jpg",
-      },
+  // Génère dynamiquement des épisodes pour chaque film
+  function getSimulatedEpisodes(movie) {
+    if (!movie) return [];
+    // Utilise l'image principale du film pour le premier épisode
+    const mainImage = movie.image
+      ? `https://image.tmdb.org/t/p/original${movie.image}`
+      : "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80";
+    // Images génériques pour les autres épisodes
+    const genericImages = [
+      "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1517602302552-471fe67acf66?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=800&q=80"
     ];
-  } else if (movie && movie.name && movie.name.toLowerCase().includes('blood sisters')) {
-    fakeEpisodes = [
-      {
-        id: 1,
-        title: "Du sang sur les mains",
-        duration: 56,
-        description: "Pendant leurs fastueuses fiançailles, Sarah et Kola remettent violemment en cause leur relation. Plus tard, Sarah et Kemi se retrouvent dans une dangereuse situation.",
-        image: "https://static.tvmaze.com/uploads/images/original_untouched/425/1064370.jpg",
-      },
-      {
-        id: 2,
-        title: "Sœurs en cavale",
-        duration: 49,
-        description: "La famille de Kola se dispute quant à la suite à donner à sa disparition. De leur côté, Sarah et Kemi cherchent désespérément une solution à leur problème grandissant.",
-        image: "https://static.tvmaze.com/uploads/images/original_untouched/425/1064371.jpg",
-      },
-      {
-        id: 3,
-        title: "La chasse",
-        duration: 52,
-        description: "La famille de Kola est en deuil. Sarah et Kemi décident de se cacher, mais les ennuis les rattrapent. Une découverte mène l'inspecteur Joe sur une nouvelle piste.",
-        image: "https://static.tvmaze.com/uploads/images/original_untouched/425/1064372.jpg",
-      },
-    ];
-  } else {
-    fakeEpisodes = [
-      {
-        id: 1,
-        title: "Épisode 1",
-        duration: 45,
-        description: "Premier épisode palpitant du film sélectionné.",
-        image: "https://static.tvmaze.com/uploads/images/original_untouched/1/2668.jpg",
-      },
-      {
-        id: 2,
-        title: "Épisode 2",
-        duration: 48,
-        description: "Suite des aventures du héros ou de l'héroïne.",
-        image: "https://static.tvmaze.com/uploads/images/original_untouched/1/2670.jpg",
-      },
-      {
-        id: 3,
-        title: "Épisode 3",
-        duration: 50,
-        description: "Un rebondissement inattendu bouleverse l'histoire.",
-        image: "https://static.tvmaze.com/uploads/images/original_untouched/1/2671.jpg",
-      },
-    ];
+    // Génère 3 épisodes
+    return [1,2,3].map((num, idx) => {
+      const duration = 40 + Math.floor(Math.random()*20); // 40-59 min
+      const title = `Épisode ${num} : ${movie.name.split(' ')[0]}`;
+      const description = `Dans cet épisode, ${movie.name} fait face à de nouveaux défis inattendus. Découvrez la suite de l'aventure !`;
+      return {
+        id: num,
+        title,
+        duration,
+        description,
+        image: idx === 0 ? mainImage : genericImages[(idx+movie.id)%genericImages.length],
+      };
+    });
   }
+
+  // Remplace la génération de fakeEpisodes par :
+  const fakeEpisodes = getSimulatedEpisodes(movie);
 
   useEffect(() => {
     if (activeTab === "episode" && episodesRef.current) {
