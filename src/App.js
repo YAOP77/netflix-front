@@ -8,6 +8,7 @@ import Signup from "./pages/Signup";
 import TVShows from "./pages/TVShows";
 import UserListedMovies from "./pages/UserListedMovies";
 import MovieDetails from "./pages/MovieDetails";
+import OfferPage from "./pages/OfferPage";
 import "./utils/debug";
 import Footer from "./components/Footer";
 
@@ -24,6 +25,7 @@ export default function App() {
         <Route exact path="/mylist" element={<UserListedMovies />} />
         <Route exact path="/movie/:id" element={<MovieDetails />} />
         <Route exact path="/tv/:id" element={<MovieDetails />} />
+        <Route exact path="/offers" element={<OfferPage />} />
         <Route exact path="/" element={<Netflix />} />
       </Routes>
       <Footer />

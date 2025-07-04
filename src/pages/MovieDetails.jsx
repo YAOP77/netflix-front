@@ -189,6 +189,11 @@ export default function MovieDetails() {
     }
   }, []);
 
+  // Handler pour cliquer sur une offre
+  const handleOfferClick = useCallback((offer) => {
+    navigate("/offers", { state: { offer } });
+  }, [navigate]);
+
   if (error) return <div style={{ color: '#fff', padding: 32 }}>
     {error}
     {errorDetails && (
@@ -427,7 +432,10 @@ export default function MovieDetails() {
               key={offer.key}
               className={`offer-card${selectedOffer === offer.key ? ' offer-selected' : ''}${offer.popular ? ' offer-popular' : ''}`}
               style={{ background: offer.color, border: selectedOffer === offer.key ? '2.5px solid #fff' : '1.5px solid #888' }}
-              onClick={() => setSelectedOffer(offer.key)}
+              onClick={() => {
+                setSelectedOffer(offer.key);
+                handleOfferClick(offer);
+              }}
             >
               {offer.popular && <div className="offer-popular-badge">La plus populaire</div>}
               <div className="offer-label">{offer.label}</div>
