@@ -15,7 +15,6 @@ function Netflix() {
   const movies = useSelector((state) => state.netflix.movies);
   const genres = useSelector((state) => state.netflix.genres);
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
-  const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,24 +39,9 @@ function Netflix() {
     return () => (window.onscroll = null);
   };
 
-  // Filtrage local des films selon la recherche
-  const filteredMovies = movies.filter(m =>
-    m.name?.toLowerCase().includes(search.toLowerCase()) ||
-    m.title?.toLowerCase().includes(search.toLowerCase())
-  );
-
   return (
     <Container>
       <Navbar isScrolled={isScrolled} />
-      <div className="search-bar-container">
-        <input
-          type="text"
-          className="search-bar"
-          placeholder="Rechercher un film..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
-      </div>
       <div className="hero">
         <img
           src={backgroundImage}
@@ -83,38 +67,13 @@ function Netflix() {
           </div>
         </div>
       </div>
-      <Slider movies={filteredMovies} />
+      <Slider movies={movies} />
     </Container>
   );
 }
 
 const Container = styled.div`
   background-color: black;
-  .search-bar-container {
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    margin: 2.2rem 0 0.5rem 0;
-    z-index: 10;
-    position: relative;
-  }
-  .search-bar {
-    width: 340px;
-    max-width: 90vw;
-    padding: 0.8rem 1.2rem;
-    border-radius: 2rem;
-    border: none;
-    font-size: 1.1rem;
-    background: rgba(30,30,30,0.82);
-    color: #fff;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-    outline: none;
-    transition: box-shadow 0.18s, background 0.18s;
-    &:focus {
-      background: rgba(30,30,30,0.95);
-      box-shadow: 0 4px 24px rgba(0,0,0,0.22);
-    }
-  }
   .hero {
     position: relative;
     .background-image {

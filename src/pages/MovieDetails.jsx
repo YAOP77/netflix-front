@@ -48,7 +48,6 @@ export default function MovieDetails() {
   const [selectedOffer, setSelectedOffer] = useState(null);
   const offerRef = useRef(null);
   const navigate = useNavigate();
-  const similarRef = useRef(null);
 
   useEffect(() => {
     // Toujours recharger le film quand l'id change
@@ -129,12 +128,6 @@ export default function MovieDetails() {
   useEffect(() => {
     if (activeTab === "episode" && episodesRef.current) {
       episodesRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-    if (activeTab === "other" && similarRef.current) {
-      similarRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-    if (activeTab === "offers" && offerRef.current) {
-      offerRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
   }, [activeTab]);
 
@@ -327,7 +320,7 @@ export default function MovieDetails() {
         </div>
       </div>
       {/* Section 4 : Vous aimerez peut-être aussi */}
-      <div ref={similarRef} className="similar-section">
+      <div className="similar-section">
         <div
           className="similar-arrow left"
           onClick={() => {
