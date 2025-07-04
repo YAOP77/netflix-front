@@ -8,6 +8,7 @@ const NAV_TABS = [
   { key: "trailer", label: "Bandes-annonces" },
   { key: "other", label: "Autres titres à regarder" },
   { key: "offers", label: "Offres" },
+  { key: "episode", label: "Episode" },
 ];
 
 export default function MovieDetails() {

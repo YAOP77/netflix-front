@@ -68,13 +68,29 @@ const Container = styled.div`
     .slider-action {
       position: absolute;
       z-index: 99;
-      height: 100%;
-      top: 0;
-      bottom: 0;
-      width: 50px;
-      transition: 0.3s ease-in-out;
+      height: 72px;
+      width: 48px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(120,120,120,0.28);
+      border-radius: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+      transition: background 0.18s, box-shadow 0.18s;
+      cursor: pointer;
       svg {
-        font-size: 2rem;
+        color: #fff;
+        font-size: 2.2rem;
+        transition: color 0.18s;
+      }
+      &:hover {
+        background: rgba(180,180,180,0.38);
+        box-shadow: 0 4px 18px rgba(0,0,0,0.28);
+        svg {
+          color: #fff;
+        }
       }
     }
     .none {
