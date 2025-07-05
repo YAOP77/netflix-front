@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import logo from "../assets/Logo-Netflix.png";
+import logo from "../assets/logo.png";
 import { FaPowerOff, FaSearch } from "react-icons/fa";
 
 export default function Navbar({ isScrolled, onSearchChange }) {
