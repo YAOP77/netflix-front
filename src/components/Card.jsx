@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { removeMovieFromLiked, addMovieToLiked } from "../store";
 import axios from "axios";
 import { TMDB_BASE_URL, API_KEY } from "../utils/constants";
-import logoNetflix from "../assets/logo-logomark.png";
+import logoNetflix from "../assets/Logo-Netflix.png";
 // import video from "../assets/video.mp4";
 
 export default React.memo(function Card({ index, movieData, isLiked = false }) {
@@ -137,15 +137,16 @@ const Container = styled.div`
     }
     .netflix-logo {
       position: absolute;
-      top: 0.7rem;
-      left: 0.7rem;
-      width: 1.7rem;
-      height: 1.7rem;
+      top: 0.5rem;
+      left: 0.5rem;
+      width: 2.2rem;
+      height: 2.2rem;
       z-index: 2;
-      background: rgba(0,0,0,0.18);
-      border-radius: 0.4rem;
-      padding: 0.12rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      background: rgba(0,0,0,0.25);
+      border-radius: 0.3rem;
+      padding: 0.15rem;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.3);
+      object-fit: contain;
     }
     .card-title-bg {
       position: absolute;
