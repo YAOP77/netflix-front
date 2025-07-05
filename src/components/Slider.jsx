@@ -7,18 +7,18 @@ export default function Slider({ movies }) {
   };
   return (
     <Container>
-      <CardSlider data={getMoviesFromRange(0, 10)} title="Tendances" />
-      <CardSlider data={getMoviesFromRange(10, 20)} title="Nouveautés" />
+      <CardSlider data={getMoviesFromRange(0, 10)} title="Trending Now" />
+      <CardSlider data={getMoviesFromRange(10, 20)} title="New Releases" />
       <CardSlider
         data={getMoviesFromRange(20, 30)}
-        title="Blockbusters"
+        title="Blockbuster Movies"
       />
       <CardSlider
         data={getMoviesFromRange(30, 40)}
-        title="Populaires sur Netflix"
+        title="Popular on Netflix"
       />
-      <CardSlider data={getMoviesFromRange(40, 50)} title="Films d'action" />
-      <CardSlider data={getMoviesFromRange(50, 60)} title="Épiques" />
+      <CardSlider data={getMoviesFromRange(40, 50)} title="Action Movies" />
+      <CardSlider data={getMoviesFromRange(50, 60)} title="Epics" />
     </Container>
   );
 }

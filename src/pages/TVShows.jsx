@@ -50,7 +50,10 @@ function TVShows() {
             <Slider movies={movies} />
           </>
         ) : (
-          <p>Aucune série disponible pour le genre sélectionné. Veuillez choisir un autre genre.</p>
+          <h1 className="not-available">
+            No TV Shows avaialble for the selected genre. Please select a
+            different genre.
+          </h1>
         )}
       </div>
     </Container>

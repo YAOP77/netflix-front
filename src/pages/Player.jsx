@@ -12,8 +12,8 @@ export default function Player() {
   return (
     <Container>
       <div className="player">
-        <div className="back" onClick={() => navigate(-1)}>
-          <span>Retour</span>
+        <div className="back">
+          <BsArrowLeft onClick={() => navigate(-1)} />
         </div>
         {trailerUrl ? (
           <iframe

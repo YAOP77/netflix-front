@@ -43,33 +43,47 @@ function Signup() {
   };
 
   return (
-    <div className="signup-page" style={{ background: `url(${background}) center center/cover no-repeat` }}>
-      <div className="signup-overlay">
-        <h1>Films, séries et bien plus en illimité</h1>
-        <h3>Prêt à regarder ? Entrez votre email pour créer ou réactiver votre abonnement.</h3>
+    <Container>
+      <div className="bg-overlay" />
+      <img src={logo} alt="Netflix" className="logo" />
+      <div className="hero-content">
+        <h1>Unlimited movies, TV shows, and more</h1>
+        <h2>Starts at USD 2.99. Cancel anytime.</h2>
+        <h3>Ready to watch? Enter your email to create or restart your membership.</h3>
         <form className="signup-form" onSubmit={showPassword ? handleSignup : handleGetStarted} autoComplete="on">
           <input
             type="email"
-            placeholder="Adresse e-mail"
+            placeholder="Email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
             disabled={showPassword}
           />
           {showPassword ? (
-            <input
-              type="password"
-              placeholder="Mot de passe (6 caractères min.)"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          ) : null}
-          <button type="submit" className="signup-btn">
-            {loading ? "Chargement..." : showPassword ? "S'inscrire" : "Commencer"}
-          </button>
+            <>
+              <input
+                type="password"
+                placeholder="Password (min 6 chars)"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+                autoFocus
+              />
+              <button type="submit" disabled={loading}>
+                {loading ? "Loading..." : "Sign Up"}
+              </button>
+            </>
+          ) : (
+            <button type="submit" disabled={loading}>
+              {loading ? "Loading..." : "Get Started"}
+            </button>
+          )}
         </form>
-        <button className="sign-in-btn" onClick={() => navigate("/login")}>Se connecter</button>
+        {errorMessage && <div className="error">{errorMessage}</div>}
       </div>
-    </div>
+      <button className="sign-in-btn" onClick={() => navigate("/login")}>Sign In</button>
+    </Container>
   );
 }
 
