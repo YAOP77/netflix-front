@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { removeMovieFromLiked, addMovieToLiked } from "../store";
 import axios from "axios";
 import { TMDB_BASE_URL, API_KEY } from "../utils/constants";
-import logoNetflix from "../assets/logo-logomark.png";
+import logoNetflix from "../assets/Logo-Netflix.png";
 // import video from "../assets/video.mp4";
 
 export default React.memo(function Card({ index, movieData, isLiked = false }) {
