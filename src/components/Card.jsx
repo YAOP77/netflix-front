@@ -50,7 +50,9 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
           src={`https://image.tmdb.org/t/p/w500${movieData.image}`}
           alt={movieData.name}
         />
-        <img src={logoNetflix} alt="Netflix logo" className="netflix-logo" />
+        {isNetflixOriginal && (
+          <img src={logoNetflix} alt="Netflix logo" className="netflix-logo" style={{ maxWidth: '100px', filter: 'drop-shadow(0 0 8px #000)' }} />
+        )}
         {isHovered && (
           isLiked ? (
             <button
