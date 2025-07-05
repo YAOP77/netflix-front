@@ -51,7 +51,7 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
           alt={movieData.name}
         />
         {isNetflixOriginal && (
-          <img src={logoNetflix} alt="Netflix logo" className="netflix-logo" style={{ maxWidth: '100px', filter: 'drop-shadow(0 0 8px #000)' }} />
+          <img src={logoNetflix} alt="Netflix logo" className="netflix-logo" />
         )}
         {isHovered && (
           isLiked ? (
@@ -139,13 +139,13 @@ const Container = styled.div`
       position: absolute;
       top: 0.7rem;
       left: 0.7rem;
-      width: 1.7rem;
-      height: 1.7rem;
+      width: 2.5rem;
+      height: 2.5rem;
       z-index: 2;
-      background: rgba(0,0,0,0.18);
+      background: rgba(0,0,0,0.55);
       border-radius: 0.4rem;
-      padding: 0.12rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      padding: 0.18rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.38), 0 2px 8px rgba(0,0,0,0.28);
     }
     .card-title-bg {
       position: absolute;
