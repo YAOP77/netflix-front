@@ -8,6 +8,7 @@ export default function Navbar({ isScrolled, onSearchChange }) {
   const [showSearch, setShowSearch] = useState(false);
   const [inputHover, setInputHover] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const links = [
     { name: "Home", link: "/" },
     { name: "TV Shows", link: "/tv" },
@@ -64,12 +65,24 @@ export default function Navbar({ isScrolled, onSearchChange }) {
           <button onClick={() => {
             localStorage.removeItem("token");
             localStorage.removeItem("user");
-            navigate("/login");
+            setShowLogoutModal(true);
+            setTimeout(() => {
+              setShowLogoutModal(false);
+              navigate("/login");
+            }, 1500);
           }}>
             <FaPowerOff />
           </button>
         </div>
       </nav>
+      {showLogoutModal && (
+        <div className="modal-bg" onClick={() => { setShowLogoutModal(false); navigate("/login"); }}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{padding: '2.5rem 3.5rem', background: 'rgba(30,30,30,0.92)', color: '#fff', fontSize: '1.3rem', fontWeight: 700, textAlign: 'center'}}>
+            Déconnexion réussie !
+            <button className="close-btn" onClick={() => { setShowLogoutModal(false); navigate("/login"); }}>✕</button>
+          </div>
+        </div>
+      )}
     </Container>
   );
 }
@@ -162,6 +175,39 @@ const Container = styled.div`
           visibility: visible;
           padding: 0.3rem;
         }
+      }
+    }
+  }
+  .modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .modal-content {
+      position: relative;
+      background: transparent;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.45);
+      padding: 0;
+      .close-btn {
+        position: absolute;
+        top: -2.2rem;
+        right: 0;
+        background: #111;
+        color: #fff;
+        border: none;
+        font-size: 2rem;
+        border-radius: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.25);
       }
     }
   }
