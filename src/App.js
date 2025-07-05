@@ -12,6 +12,8 @@ import OfferPage from "./pages/OfferPage";
 import "./utils/debug";
 import Footer from "./components/Footer";
 
+console.log(process.env.REACT_APP_API_URL);
+
 export default function App() {
   return (
     <BrowserRouter>
