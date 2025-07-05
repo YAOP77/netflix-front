@@ -85,6 +85,8 @@ export default function OfferPage() {
     setLoading(true);
     setError(null);
     setPaymentResult(null);
+    console.log("API_URL:", API_URL);
+    console.log("Full URL:", `${API_URL}/api/user/payment/moneyfusion`);
     try {
       const amount = Math.round(parseFloat(selectedOffer.priceUSD.replace('USD','').replace(',','.'))*600);
       const res = await axios.post(`${API_URL}/api/user/payment/moneyfusion`, {
