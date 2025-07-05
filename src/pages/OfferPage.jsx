@@ -65,6 +65,8 @@ const OFFERS = [
   },
 ];
 
+const API_URL = process.env.REACT_APP_API_URL || "";
+
 export default function OfferPage() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -85,7 +87,7 @@ export default function OfferPage() {
     setPaymentResult(null);
     try {
       const amount = Math.round(parseFloat(selectedOffer.priceUSD.replace('USD','').replace(',','.'))*600);
-      const res = await axios.post("/api/user/payment/moneyfusion", {
+      const res = await axios.post(`${API_URL}/api/user/payment/moneyfusion`, {
         amount,
         phone,
         operator,
