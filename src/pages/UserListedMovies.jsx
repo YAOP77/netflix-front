@@ -34,11 +34,11 @@ export default function UserListedMovies() {
     <Container>
       <Navbar isScrolled={isScrolled} />
       <div className="content flex column">
-        <h1>My List</h1>
+        <h1>Ma Liste</h1>
         <div className="grid flex">
           {movies.length === 0 ? (
             <div style={{ color: 'white', fontSize: '1.3rem', margin: '2rem auto' }}>
-              Your list is empty. Add movies to see them here!
+              Votre liste est vide. Ajoutez des films pour les voir ici !
             </div>
           ) : (
             movies.map((movie, index) => (

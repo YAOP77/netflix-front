@@ -10,10 +10,10 @@ export default function Navbar({ isScrolled, onSearchChange }) {
   const [searchValue, setSearchValue] = useState("");
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const links = [
-    { name: "Home", link: "/" },
-    { name: "TV Shows", link: "/tv" },
-    { name: "Movies", link: "/movies" },
-    { name: "My List", link: "/mylist" },
+    { name: "Accueil", link: "/" },
+    { name: "Séries", link: "/tv" },
+    { name: "Films", link: "/movies" },
+    { name: "Ma Liste", link: "/mylist" },
   ];
   const navigate = useNavigate();
 
@@ -48,7 +48,7 @@ export default function Navbar({ isScrolled, onSearchChange }) {
             </button>
             <input
               type="text"
-              placeholder="Search"
+              placeholder="Rechercher"
               value={searchValue}
               onChange={e => {
                 setSearchValue(e.target.value);
